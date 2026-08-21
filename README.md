@@ -8,7 +8,7 @@ quality/speed/state evidence, and the complete execution path from tokenization 
 
 ## Visual system
 
-Version 0.3.7 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
+Version 0.3.8 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
 fixed specimen rail, irregular ratio atlas, clipped inference console, cobalt evidence field, acid execution map,
 and publication plots deliberately change composition from section to section.
 
@@ -36,6 +36,8 @@ and publication plots deliberately change composition from section to section.
 - The 0.3.7 routing pass adds a minimal hero schematic of the shared recurrent path and sparse attention detour.
   Its packet cadence and exact 16-block strip follow the active ratio; reduced motion renders the same topology
   without perpetual signals, and compact layouts omit the instrument to preserve reading flow.
+- The 0.3.8 integration pass enlarges that instrument into the full middle field and strengthens its route,
+  topology, and readout hierarchy while enforcing measured clearance from the question, selector, and result.
 
 ## Evidence shown
 

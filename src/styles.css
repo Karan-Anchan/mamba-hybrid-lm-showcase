@@ -219,25 +219,25 @@ strong { font-weight: 650; }
 .hero-routing {
   --routing-mamba: #65efb7;
   --routing-attention: #72ddff;
-  position: absolute; top: clamp(205px, 28vh, 300px); left: clamp(630px, 53%, 1100px); z-index: 6;
-  width: clamp(280px, 22vw, 440px); margin: 0; color: rgb(255 249 236 / 0.78);
-  pointer-events: none; filter: drop-shadow(0 14px 24px rgb(2 2 5 / 0.28));
+  position: absolute; top: clamp(220px, 29vh, 300px); left: clamp(620px, 51%, 1180px); z-index: 6;
+  width: clamp(380px, 30vw, 620px); margin: 0; color: rgb(255 249 236 / 0.82);
+  pointer-events: none; filter: drop-shadow(0 18px 32px rgb(2 2 5 / 0.34));
 }
 .hero-routing figcaption {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 8px;
-  font-family: "JetBrains Mono Variable", monospace; font-size: 0.46rem; letter-spacing: 0.14em;
-  border-bottom: 1px solid rgb(255 255 255 / 0.2);
+  display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-bottom: 10px;
+  font-family: "JetBrains Mono Variable", monospace; font-size: 0.52rem; letter-spacing: 0.14em;
+  border-bottom: 1px solid rgb(255 255 255 / 0.24);
 }
 .hero-routing figcaption span { color: rgb(255 249 236 / 0.58); }
-.hero-routing figcaption b { color: var(--routing-attention); font-family: "Unbounded Variable", sans-serif; font-size: 0.56rem; }
+.hero-routing figcaption b { color: var(--routing-attention); font-family: "Unbounded Variable", sans-serif; font-size: 0.63rem; }
 .routing-plot { width: 100%; overflow: visible; }
-.routing-guide { fill: none; stroke: rgb(255 255 255 / 0.12); stroke-width: 5; }
-.routing-line { fill: none; stroke-linecap: round; stroke-width: 1.65; }
+.routing-guide { fill: none; stroke: rgb(255 255 255 / 0.13); stroke-width: 6; }
+.routing-line { fill: none; stroke-linecap: round; stroke-width: 1.9; }
 .routing-line.recurrent { stroke: url(#recurrent-route); }
 .routing-line.attention { stroke: url(#attention-route); }
 .routing-label, .routing-stage-label { fill: rgb(255 249 236 / 0.5); font-family: "JetBrains Mono Variable", monospace; letter-spacing: 0.12em; }
-.routing-label { font-size: 6px; }
-.routing-stage-label { font-size: 5.5px; }
+.routing-label { font-size: 6.6px; }
+.routing-stage-label { font-size: 6.1px; }
 .state-node circle { fill: rgb(5 5 10 / 0.82); stroke: var(--routing-mamba); stroke-width: 1; }
 .state-node path { fill: none; stroke: var(--routing-mamba); stroke-linecap: round; stroke-width: 1.15; }
 .attention-node circle:not(.attention-halo) { fill: var(--routing-attention); }
@@ -247,15 +247,15 @@ strong { font-weight: 650; }
 .terminal-node.output { fill: var(--routing-attention); }
 .routing-packet.recurrent { fill: #fff9ec; filter: drop-shadow(0 0 5px rgb(101 239 183 / 0.95)); }
 .routing-packet.attention { fill: var(--routing-attention); filter: drop-shadow(0 0 7px rgb(114 221 255 / 1)); }
-.routing-pattern { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; height: 7px; margin-top: -2px; }
+.routing-pattern { display: grid; grid-template-columns: repeat(16, 1fr); gap: 4px; height: 9px; margin-top: -1px; }
 .routing-pattern i { display: block; height: 100%; background: var(--routing-mamba); transform-origin: 50% 100%; }
 .routing-pattern i.attention { background: var(--routing-attention); box-shadow: 0 0 8px rgb(114 221 255 / 0.48); }
 .routing-readout {
-  display: flex; align-items: center; gap: 15px; padding-top: 9px; color: rgb(255 249 236 / 0.68);
-  font-family: "JetBrains Mono Variable", monospace; font-size: 0.43rem; letter-spacing: 0.04em;
+  display: flex; align-items: center; gap: 18px; padding-top: 11px; color: rgb(255 249 236 / 0.72);
+  font-family: "JetBrains Mono Variable", monospace; font-size: 0.48rem; letter-spacing: 0.04em;
 }
 .routing-readout span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
-.routing-readout i { width: 5px; height: 5px; background: var(--routing-mamba); }
+.routing-readout i { width: 6px; height: 6px; background: var(--routing-mamba); }
 .routing-readout i.attention { background: var(--routing-attention); }
 .routing-readout small { margin-left: auto; color: rgb(255 249 236 / 0.42); font-size: inherit; text-transform: uppercase; }
 .hero-conclusion {

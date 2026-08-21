@@ -48,6 +48,20 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   await expect(page.locator('.hero-scan-beam')).toHaveCSS('animation-name', 'observatory-sweep')
   await expect(page.locator('[data-visual="hybrid-routing"]')).toBeVisible()
   await expect(page.getByLabel('1:3 hybrid routing diagram: 4 attention layers and 12 Mamba-2 layers')).toBeVisible()
+  const routingClearance = await page.evaluate(() => {
+    const diagram = document.querySelector('.hero-routing')!.getBoundingClientRect()
+    const question = document.querySelector('.research-question')!.getBoundingClientRect()
+    const controls = document.querySelector('.hero-controls')!.getBoundingClientRect()
+    const result = document.querySelector('.hero-conclusion')!.getBoundingClientRect()
+    return {
+      fromQuestion: Math.round(diagram.left - question.right),
+      fromControls: Math.round(diagram.top - controls.bottom),
+      fromResult: Math.round(result.top - diagram.bottom),
+    }
+  })
+  expect(routingClearance.fromQuestion).toBeGreaterThanOrEqual(18)
+  expect(routingClearance.fromControls).toBeGreaterThanOrEqual(12)
+  expect(routingClearance.fromResult).toBeGreaterThanOrEqual(20)
   await expectDisplayTextInsideItsBox(page)
   await expectUniformHeroInsets(page)
   await expect(page.locator('.observatory-mark img')).toHaveCSS('width', '48px')
