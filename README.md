@@ -8,7 +8,7 @@ quality/speed/state evidence, and the complete execution path from tokenization 
 
 ## Visual system
 
-Version 0.3 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
+Version 0.3.1 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
 fixed specimen rail, irregular ratio atlas, clipped inference console, cobalt evidence field, acid execution map,
 and publication plots deliberately change composition from section to section.
 
@@ -23,6 +23,8 @@ and publication plots deliberately change composition from section to section.
   selection, chart comparison, and replay; reduced-motion preferences disable nonessential animation.
 - Desktop uses a vertical navigation instrument. Mobile converts the same structure into an accessible fixed
   bottom rail with stable section names and no horizontal overflow.
+- The 0.3.1 harmony pass softens only the atmospheric raster, preserves sharp technical overlays, normalizes
+  section gutters, and keeps every major display face inside a measured line box at desktop and mobile widths.
 
 ## Evidence shown
 
