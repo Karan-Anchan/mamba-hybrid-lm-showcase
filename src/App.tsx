@@ -217,7 +217,7 @@ function App() {
           <ObservationHeading
             index="03"
             icon={<ChartLineUp size={16} />}
-            kicker="committed evaluation evidence"
+            kicker="Committed evaluation evidence"
             title="The optimum depends on context length."
             body="1:3 leads quality and short decode. 1:15 minimizes long-context logical state. The memory ordering crosses near 260 cached tokens."
           />

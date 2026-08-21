@@ -23,6 +23,20 @@ async function expectDisplayTextInsideItsBox(page: Page) {
 }
 
 
+async function expectUniformHeroInsets(page: Page) {
+  const insets = await page.evaluate(() => {
+    const hero = document.querySelector('.observatory-hero')!.getBoundingClientRect()
+    const leftSelectors = ['.hero-protocol span:first-child', '.hero-title-block h1', '.hero-actions']
+    const rightSelectors = ['.hero-controls', '.hero-conclusion', '.visual-disclosure']
+    return [
+      ...leftSelectors.map((selector) => Math.round(document.querySelector(selector)!.getBoundingClientRect().left - hero.left)),
+      ...rightSelectors.map((selector) => Math.round(hero.right - document.querySelector(selector)!.getBoundingClientRect().right)),
+    ]
+  })
+  expect(Math.max(...insets) - Math.min(...insets)).toBeLessThanOrEqual(1)
+}
+
+
 test('desktop visitor can replay measured generation and inspect a ratio', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { name: /Attention under constraint/i })).toBeVisible()
@@ -30,6 +44,12 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   expect(await page.locator('img[src*="state-phase-field-v1.webp"]').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
   await expect(page.locator('.hero-atmosphere > img')).toHaveCSS('filter', /blur\(5px\)/)
   await expectDisplayTextInsideItsBox(page)
+  await expectUniformHeroInsets(page)
+  const heroColumnGap = await page.evaluate(() => Math.round(
+    document.querySelector('.hero-conclusion')!.getBoundingClientRect().left
+    - document.querySelector('.research-question')!.getBoundingClientRect().right,
+  ))
+  expect(heroColumnGap).toBeGreaterThanOrEqual(24)
   await expect(page.getByText('Recorded evidence mode')).toBeVisible()
   await page.getByRole('button', { name: /Replay measured run/i }).click()
   await expect(page.getByText(/state-space layers are more or less the same/i)).toBeVisible({ timeout: 5000 })
@@ -47,6 +67,7 @@ test('mobile layout switches theme without horizontal overflow', async ({ page }
   await page.getByRole('button', { name: 'Switch to light theme' }).click()
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
   await expectDisplayTextInsideItsBox(page)
+  await expectUniformHeroInsets(page)
   const mobileFlowGaps = await page.locator('.hero-title-block,.hero-conclusion,.hero-controls,.hero-actions,.visual-disclosure').evaluateAll((elements) => elements
     .slice(1)
     .map((element, index) => Math.round(element.getBoundingClientRect().top - elements[index].getBoundingClientRect().bottom)))
