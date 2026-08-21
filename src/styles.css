@@ -216,6 +216,48 @@ strong { font-weight: 650; }
   max-width: min(670px, 41vw); margin: 38px 0 0 0.5rem; color: #fff9ec;
   font-size: clamp(1rem, 1.45vw, 1.27rem); line-height: 1.55;
 }
+.hero-routing {
+  --routing-mamba: #65efb7;
+  --routing-attention: #72ddff;
+  position: absolute; top: clamp(205px, 28vh, 300px); left: clamp(630px, 53%, 1100px); z-index: 6;
+  width: clamp(280px, 22vw, 440px); margin: 0; color: rgb(255 249 236 / 0.78);
+  pointer-events: none; filter: drop-shadow(0 14px 24px rgb(2 2 5 / 0.28));
+}
+.hero-routing figcaption {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 8px;
+  font-family: "JetBrains Mono Variable", monospace; font-size: 0.46rem; letter-spacing: 0.14em;
+  border-bottom: 1px solid rgb(255 255 255 / 0.2);
+}
+.hero-routing figcaption span { color: rgb(255 249 236 / 0.58); }
+.hero-routing figcaption b { color: var(--routing-attention); font-family: "Unbounded Variable", sans-serif; font-size: 0.56rem; }
+.routing-plot { width: 100%; overflow: visible; }
+.routing-guide { fill: none; stroke: rgb(255 255 255 / 0.12); stroke-width: 5; }
+.routing-line { fill: none; stroke-linecap: round; stroke-width: 1.65; }
+.routing-line.recurrent { stroke: url(#recurrent-route); }
+.routing-line.attention { stroke: url(#attention-route); }
+.routing-label, .routing-stage-label { fill: rgb(255 249 236 / 0.5); font-family: "JetBrains Mono Variable", monospace; letter-spacing: 0.12em; }
+.routing-label { font-size: 6px; }
+.routing-stage-label { font-size: 5.5px; }
+.state-node circle { fill: rgb(5 5 10 / 0.82); stroke: var(--routing-mamba); stroke-width: 1; }
+.state-node path { fill: none; stroke: var(--routing-mamba); stroke-linecap: round; stroke-width: 1.15; }
+.attention-node circle:not(.attention-halo) { fill: var(--routing-attention); }
+.attention-node path { fill: none; stroke: var(--routing-attention); stroke-width: 1; }
+.attention-node .attention-halo { fill: rgb(114 221 255 / 0.06); stroke: rgb(114 221 255 / 0.38); stroke-width: 1; }
+.terminal-node { fill: var(--routing-mamba); }
+.terminal-node.output { fill: var(--routing-attention); }
+.routing-packet.recurrent { fill: #fff9ec; filter: drop-shadow(0 0 5px rgb(101 239 183 / 0.95)); }
+.routing-packet.attention { fill: var(--routing-attention); filter: drop-shadow(0 0 7px rgb(114 221 255 / 1)); }
+.routing-pattern { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; height: 7px; margin-top: -2px; }
+.routing-pattern i { display: block; height: 100%; background: var(--routing-mamba); transform-origin: 50% 100%; }
+.routing-pattern i.attention { background: var(--routing-attention); box-shadow: 0 0 8px rgb(114 221 255 / 0.48); }
+.routing-readout {
+  display: flex; align-items: center; gap: 15px; padding-top: 9px; color: rgb(255 249 236 / 0.68);
+  font-family: "JetBrains Mono Variable", monospace; font-size: 0.43rem; letter-spacing: 0.04em;
+}
+.routing-readout span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.routing-readout i { width: 5px; height: 5px; background: var(--routing-mamba); }
+.routing-readout i.attention { background: var(--routing-attention); }
+.routing-readout small { margin-left: auto; color: rgb(255 249 236 / 0.42); font-size: inherit; text-transform: uppercase; }
 .hero-conclusion {
   position: absolute; right: var(--hero-gutter); bottom: 132px; z-index: 6; width: min(440px, 38vw);
   padding: 24px 26px; overflow: hidden; color: #05050a; background: rgb(216 255 53 / 0.94);
@@ -598,6 +640,7 @@ strong { font-weight: 650; }
   :root { --rail: 78px; --content: min(100% - 46px, 1100px); }
   .observatory-mark img { width: 42px; height: 42px; }
   .hero-title-block { width: 76vw; }
+  .hero-routing { display: none; }
   .hero-conclusion { bottom: 116px; width: min(390px, 42vw); }
   .observation-heading { grid-template-columns: 85px 1fr; }
   .observation-heading > p { grid-column: 2; max-width: 760px; }

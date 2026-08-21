@@ -46,6 +46,8 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', /project-emblem\.png\?v=2$/)
   await expect(page.locator('.hero-atmosphere > img')).toHaveCSS('filter', /blur\(8px\)/)
   await expect(page.locator('.hero-scan-beam')).toHaveCSS('animation-name', 'observatory-sweep')
+  await expect(page.locator('[data-visual="hybrid-routing"]')).toBeVisible()
+  await expect(page.getByLabel('1:3 hybrid routing diagram: 4 attention layers and 12 Mamba-2 layers')).toBeVisible()
   await expectDisplayTextInsideItsBox(page)
   await expectUniformHeroInsets(page)
   await expect(page.locator('.observatory-mark img')).toHaveCSS('width', '48px')
@@ -59,6 +61,7 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   await expect(page.getByText(/state-space layers are more or less the same/i)).toBeVisible({ timeout: 5000 })
   await expect(page.getByText(/Measured at clean commit d6a4613/)).toBeVisible()
   await page.getByRole('button', { name: '1:15' }).first().click()
+  await expect(page.getByLabel('1:15 hybrid routing diagram: 1 attention layer and 15 Mamba-2 layers')).toBeVisible()
   await expect(page.getByLabel('1:15 architecture instrument')).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
@@ -73,6 +76,7 @@ test('mobile layout switches theme without horizontal overflow', async ({ page }
   await expectDisplayTextInsideItsBox(page)
   await expectUniformHeroInsets(page)
   await expect(page.locator('.observatory-mark img')).toHaveCSS('width', '38px')
+  await expect(page.locator('[data-visual="hybrid-routing"]')).toBeHidden()
   const mobileFlowGaps = await page.locator('.hero-title-block,.hero-conclusion,.hero-controls,.hero-actions,.visual-disclosure').evaluateAll((elements) => elements
     .slice(1)
     .map((element, index) => Math.round(element.getBoundingClientRect().top - elements[index].getBoundingClientRect().bottom)))
@@ -94,7 +98,8 @@ test('reduced motion collapses perpetual observatory signals', async ({ page }) 
     scan: getComputedStyle(document.querySelector('.hero-scan-beam')!).animationName,
     topology: getComputedStyle(document.querySelector('.layer-strip')!, '::after').animationName,
     emblem: getComputedStyle(document.querySelector('.observatory-mark')!, '::before').animationName,
+    routingPackets: document.querySelectorAll('.routing-packet').length,
   }))
-  expect(animations).toEqual({ atmosphere: 'none', scan: 'none', topology: 'none', emblem: 'none' })
+  expect(animations).toEqual({ atmosphere: 'none', scan: 'none', topology: 'none', emblem: 'none', routingPackets: 0 })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
