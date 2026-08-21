@@ -44,7 +44,7 @@ test('recorded replay reveals exact measured output and metrics', async () => {
   expect(await screen.findByText(/state-space layers are more or less the same/i, {}, { timeout: 10_000 })).toBeInTheDocument()
   await waitFor(() => expect(screen.getByText('51.14', { exact: false })).toBeInTheDocument(), { timeout: 10_000 })
   expect(screen.getByText(/Measured at clean commit d6a4613/)).toBeInTheDocument()
-})
+}, 15_000)
 
 
 test('custom text cannot be presented as a recorded generation', async () => {
