@@ -42,10 +42,13 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   await expect(page.getByRole('heading', { name: /Attention under constraint/i })).toBeVisible()
   await expect(page.getByText('Illustrative phase field—not model activations.')).toBeVisible()
   expect(await page.locator('img[src*="state-phase-field-v1.webp"]').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
+  expect(await page.locator('.observatory-mark img').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth === 1080)).toBe(true)
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', /project-emblem\.png\?v=2$/)
   await expect(page.locator('.hero-atmosphere > img')).toHaveCSS('filter', /blur\(8px\)/)
   await expect(page.locator('.hero-scan-beam')).toHaveCSS('animation-name', 'observatory-sweep')
   await expectDisplayTextInsideItsBox(page)
   await expectUniformHeroInsets(page)
+  await expect(page.locator('.observatory-mark img')).toHaveCSS('width', '48px')
   const heroColumnGap = await page.evaluate(() => Math.round(
     document.querySelector('.hero-conclusion')!.getBoundingClientRect().left
     - document.querySelector('.research-question')!.getBoundingClientRect().right,
@@ -69,6 +72,7 @@ test('mobile layout switches theme without horizontal overflow', async ({ page }
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
   await expectDisplayTextInsideItsBox(page)
   await expectUniformHeroInsets(page)
+  await expect(page.locator('.observatory-mark img')).toHaveCSS('width', '38px')
   const mobileFlowGaps = await page.locator('.hero-title-block,.hero-conclusion,.hero-controls,.hero-actions,.visual-disclosure').evaluateAll((elements) => elements
     .slice(1)
     .map((element, index) => Math.round(element.getBoundingClientRect().top - elements[index].getBoundingClientRect().bottom)))

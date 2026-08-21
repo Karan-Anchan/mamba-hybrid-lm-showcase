@@ -103,7 +103,7 @@ function App() {
 
       <header className="observatory-rail">
         <a className="observatory-mark" href="#top" aria-label="Mamba Hybrid LM home">
-          <img src={`${import.meta.env.BASE_URL}assets/project-emblem.png`} alt="" />
+          <img src={`${import.meta.env.BASE_URL}assets/project-emblem.png?v=2`} alt="" />
           <span>HYB<br />02</span>
         </a>
         <nav aria-label="Primary navigation">
@@ -289,7 +289,7 @@ function App() {
         </section>
 
         <section className="closing-section">
-          <div className="closing-emblem" aria-hidden="true"><img src={`${import.meta.env.BASE_URL}assets/project-emblem.png`} alt="" /></div>
+          <div className="closing-emblem" aria-hidden="true"><img src={`${import.meta.env.BASE_URL}assets/project-emblem.png?v=2`} alt="" /></div>
           <Reveal className="closing-copy">
             <span>REPRODUCIBILITY / 05</span>
             <h2>Read the evidence.<br /><em>Reproduce the run.</em></h2>

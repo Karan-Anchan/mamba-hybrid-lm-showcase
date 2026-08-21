@@ -8,7 +8,7 @@ quality/speed/state evidence, and the complete execution path from tokenization 
 
 ## Visual system
 
-Version 0.3.5 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
+Version 0.3.6 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
 fixed specimen rail, irregular ratio atlas, clipped inference console, cobalt evidence field, acid execution map,
 and publication plots deliberately change composition from section to section.
 
@@ -31,6 +31,8 @@ and publication plots deliberately change composition from section to section.
   movement, or state change; none of them claim model activity or measured telemetry.
 - The 0.3.5 restoration pass returns the owner-supplied emblem and prior hero geometry, while increasing only the
   atmospheric raster blur to 8 px. Canvas signals, typography, controls, and evidence remain sharp.
+- The 0.3.6 asset pass installs the final owner-generated state-ribbon and attention-graph emblem at its native
+  1080 px resolution, with an explicit cache key shared by the favicon, navigation rail, and closing composition.
 
 ## Evidence shown
 
