@@ -3,7 +3,9 @@ import { expect, test } from '@playwright/test'
 
 test('desktop visitor can replay measured generation and inspect a ratio', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: /How much attention/i })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Attention under constraint/i })).toBeVisible()
+  await expect(page.getByText('Illustrative phase field—not model activations.')).toBeVisible()
+  expect(await page.locator('img[src*="state-phase-field-v1.webp"]').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
   await expect(page.getByText('Recorded evidence mode')).toBeVisible()
   await page.getByRole('button', { name: /Replay measured run/i }).click()
   await expect(page.getByText(/state-space layers are more or less the same/i)).toBeVisible({ timeout: 5000 })
@@ -20,6 +22,7 @@ test('mobile layout switches theme without horizontal overflow', async ({ page }
   await page.goto('/')
   await page.getByRole('button', { name: 'Switch to light theme' }).click()
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  await page.getByRole('link', { name: 'Evidence' }).click()
   await expect(page.getByText('The winner flips near 260 tokens')).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })

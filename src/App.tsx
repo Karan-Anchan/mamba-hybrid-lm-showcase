@@ -1,17 +1,20 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import {
   ArrowDown, ArrowRight, ArrowSquareOut, Brain, ChartLineUp, Check,
-  Circuitry, Code, Database, GithubLogo, Info, Moon, ShieldCheck, Sparkle,
-  Sun, TerminalWindow, Warning,
+  Circuitry, Code, Database, GithubLogo, Moon, ShieldCheck, Sun,
+  TerminalWindow, Warning,
 } from '@phosphor-icons/react'
 import { motion, useScroll, useSpring } from 'motion/react'
 import { RuntimeChart, StateCrossoverChart, TradeoffChart } from './components/EvidenceCharts'
 import { GenerationLab } from './components/GenerationLab'
 import { LayerInstrument } from './components/LayerInstrument'
+import { PhasePortrait } from './components/PhasePortrait'
 import { Reveal } from './components/Reveal'
 import { findings, links, ratioEvidence, type Ratio } from './data/evidence'
 
 type Theme = 'dark' | 'light'
+
+const ratioClaims = ['quality optimum', 'intermediate condition', '8K state optimum']
 
 function getInitialTheme(): Theme {
   const stored = window.localStorage.getItem('mamba-showcase-theme')
@@ -19,7 +22,7 @@ function getInitialTheme(): Theme {
   return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
 }
 
-function SectionHeading({ index, icon, kicker, title, body }: {
+function ObservationHeading({ index, icon, kicker, title, body }: {
   index: string
   icon: ReactNode
   kicker: string
@@ -27,10 +30,10 @@ function SectionHeading({ index, icon, kicker, title, body }: {
   body: string
 }) {
   return (
-    <Reveal className="section-heading">
-      <span className="section-index">{index}</span>
-      <div className="section-title">
-        <span className="section-kicker">{icon}{kicker}</span>
+    <Reveal className="observation-heading">
+      <span className="observation-index">OBS / {index}</span>
+      <div>
+        <span className="observation-kicker">{icon}{kicker}</span>
         <h2>{title}</h2>
       </div>
       <p>{body}</p>
@@ -40,21 +43,21 @@ function SectionHeading({ index, icon, kicker, title, body }: {
 
 function ArchitectureFlow() {
   const stages = [
-    { icon: <Database />, step: '01', title: '16K BPE tokenizer', body: 'Prompt text becomes bounded token IDs.' },
-    { icon: <Circuitry />, step: '02', title: '448-wide embedding', body: 'A shared representation enters 16 hybrid blocks.' },
-    { icon: <Brain />, step: '03', title: 'Mamba + attention', body: 'The ratio changes mixer placement, not the training protocol.' },
-    { icon: <TerminalWindow />, step: '04', title: 'Recurrent decode', body: 'Prefill once, then update typed state one token at a time.' },
-    { icon: <Code />, step: '05', title: 'FastAPI → interface', body: 'Serialized SSE events carry tokens and measured runtime data.' },
+    { icon: <Database />, step: '01', title: 'Tokenize', body: '16K BPE maps text to bounded token IDs.' },
+    { icon: <Circuitry />, step: '02', title: 'Embed', body: '448-wide vectors enter sixteen residual blocks.' },
+    { icon: <Brain />, step: '03', title: 'Mix', body: 'Only Mamba-2 versus attention placement changes.' },
+    { icon: <TerminalWindow />, step: '04', title: 'Decode', body: 'Prefill once; update typed recurrent state per token.' },
+    { icon: <Code />, step: '05', title: 'Stream', body: 'FastAPI serializes SSE tokens and measured runtime data.' },
   ]
   return (
-    <div className="flow-grid">
+    <div className="flow-sequence">
       {stages.map((stage, index) => (
-        <div className="flow-stage" key={stage.step}>
-          <span className="flow-number">STEP / {stage.step}</span>
+        <div className="flow-step" key={stage.step}>
+          <span>{stage.step}</span>
           <i>{stage.icon}</i>
           <strong>{stage.title}</strong>
           <p>{stage.body}</p>
-          {index < stages.length - 1 && <ArrowRight className="flow-arrow" aria-hidden="true" />}
+          {index < stages.length - 1 && <ArrowRight aria-hidden="true" />}
         </div>
       ))}
     </div>
@@ -65,7 +68,7 @@ function App() {
   const [ratio, setRatio] = useState<Ratio>('1:3')
   const [theme, setTheme] = useState<Theme>(getInitialTheme)
   const { scrollYProgress } = useScroll()
-  const progress = useSpring(scrollYProgress, { stiffness: 150, damping: 28, restDelta: 0.001 })
+  const progress = useSpring(scrollYProgress, { stiffness: 130, damping: 25, restDelta: 0.001 })
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -76,185 +79,209 @@ function App() {
       themeColor.name = 'theme-color'
       document.head.append(themeColor)
     }
-    themeColor.content = theme === 'dark' ? '#090a0b' : '#ebe8de'
+    themeColor.content = theme === 'dark' ? '#05050a' : '#f2efe4'
   }, [theme])
 
   return (
     <>
       <a className="skip-link" href="#main">Skip to the experiment</a>
-      <motion.div className="reading-progress" style={{ scaleX: progress }} aria-hidden="true" />
+      <motion.div className="reading-progress" style={{ scaleY: progress }} aria-hidden="true" />
 
-      <header className="site-header">
-        <div className="header-inner">
-          <a className="brand" href="#top" aria-label="Mamba Hybrid LM home">
-            <img src={`${import.meta.env.BASE_URL}assets/project-emblem.png`} alt="" />
-            <span><strong>MAMBA / HYBRID</strong><small>research artifact 02</small></span>
-          </a>
-          <nav aria-label="Primary navigation">
-            <a href="#experiment"><span>01</span>Ratios</a>
-            <a href="#lab"><span>02</span>Lab</a>
-            <a href="#evidence"><span>03</span>Evidence</a>
-            <a href="#system"><span>04</span>System</a>
-          </nav>
-          <div className="header-actions">
-            <button className="theme-toggle" type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}>
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-            <a className="source-button" href={links.project} target="_blank" rel="noreferrer"><GithubLogo size={18} /> <span>View source</span></a>
-          </div>
+      <header className="observatory-rail">
+        <a className="observatory-mark" href="#top" aria-label="Mamba Hybrid LM home">
+          <img src={`${import.meta.env.BASE_URL}assets/project-emblem.png`} alt="" />
+          <span>HYB<br />02</span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="#ratios" aria-label="Ratios"><b>01</b><span>Ratios</span></a>
+          <a href="#lab" aria-label="Lab"><b>02</b><span>Lab</span></a>
+          <a href="#evidence" aria-label="Evidence"><b>03</b><span>Evidence</span></a>
+          <a href="#system" aria-label="System"><b>04</b><span>System</span></a>
+        </nav>
+        <div className="rail-actions">
+          <button type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}>
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <a href={links.project} target="_blank" rel="noreferrer" aria-label="Open project source"><GithubLogo size={19} /></a>
         </div>
       </header>
 
-      <main id="main">
-        <section className="hero" id="top">
-          <aside className="hero-rail" aria-hidden="true">
-            <span>PROJECT / 02</span>
-            <b>SSM<br />×<br />ATTN</b>
-            <span>RTX / 5070</span>
-          </aside>
-
-          <div className="hero-copy">
-            <div className="hero-status">
-              <span><i /> Certified evidence</span>
-              <span>16 layers</span>
-              <span>700M tokens × 3</span>
-            </div>
-            <p className="hero-overline">Selective state meets sparse global lookup.</p>
-            <h1 aria-label="How much attention does a small language model actually need?"><span>How much </span><span className="attention-word">attention </span><span>does a small LM need?</span></h1>
-            <p className="hero-lede">A controlled study of three Mamba-2 / attention ratios—measured across quality, generation speed, and 8K state memory.</p>
-            <div className="hero-actions">
-              <a className="primary-cta" href="#lab">Enter the inference lab <ArrowDown size={17} /></a>
-              <a className="secondary-cta" href={links.analysis} target="_blank" rel="noreferrer">Read the analysis <ArrowSquareOut size={16} /></a>
-            </div>
-            <div className="hero-proof">
-              <span><ShieldCheck size={17} weight="fill" /> Checksummed</span>
-              <span><ChartLineUp size={17} weight="fill" /> Protocol matched</span>
-              <span><Check size={17} weight="bold" /> 8K executed</span>
-            </div>
+      <main id="main" className="observatory-main">
+        <section className="observatory-hero" id="top">
+          <div className="hero-atmosphere" aria-hidden="true">
+            <img src={`${import.meta.env.BASE_URL}assets/state-phase-field-v1.webp`} alt="" />
+            <PhasePortrait ratio={ratio} />
+            <div className="hero-scan" />
           </div>
 
-          <div className="hero-instrument">
-            <span className="instrument-coordinate">FIG. 01 / LIVE LAYER TOPOLOGY</span>
-            <LayerInstrument ratio={ratio} onRatioChange={setRatio} />
+          <div className="hero-protocol">
+            <span>FIXED-COMPUTE ABLATION</span>
+            <span>N = 3 MODELS</span>
+            <span>N = 1 SEED</span>
+            <span>700M POSITIONS / MODEL</span>
           </div>
 
-          <div className="hero-folio" aria-hidden="true"><span>HYB—02</span><span>BER / 2026</span></div>
+          <div className="hero-title-block">
+            <span className="hero-folio">PROJECT 02 / HYBRID SEQUENCE MODELS</span>
+            <h1 aria-label="Attention under constraint">
+              <span>Attention</span>
+              <em>under</em>
+              <span>constraint.</span>
+            </h1>
+            <p className="research-question">At fixed compute, how does attention frequency alter validation perplexity, recurrent decode rate, and 8K state memory?</p>
+          </div>
+
+          <div className="hero-conclusion">
+            <span>PRIMARY RESULT</span>
+            <strong>More attention won quality.<br />Less attention won state memory.</strong>
+            <dl>
+              <div><dt>best PPL</dt><dd>26.301 <small>/ 1:3</small></dd></div>
+              <div><dt>best decode</dt><dd>52.32 <small>tok/s / 1:3</small></dd></div>
+              <div><dt>smallest 8K state</dt><dd>20.66 <small>MiB / 1:15</small></dd></div>
+            </dl>
+          </div>
+
+          <div className="hero-controls" aria-label="Select architecture ratio">
+            {ratioEvidence.map((variant) => (
+              <button type="button" key={variant.ratio} className={ratio === variant.ratio ? 'active' : ''} onClick={() => setRatio(variant.ratio)} aria-pressed={ratio === variant.ratio}>
+                <span>{variant.ratio}</span><small>{variant.attentionLayers}A / {variant.mambaLayers}M</small>
+              </button>
+            ))}
+          </div>
+
+          <div className="hero-actions">
+            <a href="#lab">Run measured replay <ArrowDown /></a>
+            <a href={links.analysis} target="_blank" rel="noreferrer">Open analysis <ArrowSquareOut /></a>
+          </div>
+
+          <div className="visual-disclosure">
+            <i /> Illustrative phase field—not model activations.
+          </div>
         </section>
 
-        <section className="research-strip" aria-label="Headline experiment metrics">
-          <span className="strip-label">MEASURED<br />SIGNALS</span>
-          <div><small>best perplexity</small><strong>26.301</strong><span>ratio / 1:3</span></div>
-          <div><small>sampled generation</small><strong>52.32</strong><span>tok/s / 1:3</span></div>
-          <div><small>smallest 8K state</small><strong>20.66</strong><span>MiB / 1:15</span></div>
-          <div><small>fixed token budget</small><strong>700M</strong><span>each variant</span></div>
+        <section className="telemetry-band" aria-label="Experiment protocol">
+          <div><span>MODEL</span><strong>52–54M</strong><small>parameters</small></div>
+          <div><span>STACK</span><strong>16</strong><small>hybrid blocks</small></div>
+          <div><span>WIDTH</span><strong>448</strong><small>d_model</small></div>
+          <div><span>DEVICE</span><strong>5070</strong><small>12 GB RTX</small></div>
+          <div><span>NUMERIC</span><strong>BF16</strong><small>mixed precision</small></div>
         </section>
 
-        <section className="section experiment-section" id="experiment">
-          <SectionHeading
+        <section className="ratio-section" id="ratios">
+          <ObservationHeading
             index="01"
-            icon={<Sparkle size={16} weight="fill" />}
-            kicker="The controlled variable"
-            title="One stack. Three attention budgets."
-            body="Depth, data, optimizer, batch geometry, and token exposure stay fixed. Only causal-attention placement changes."
+            icon={<Circuitry size={16} />}
+            kicker="Controlled architecture ablation"
+            title="Attention frequency is the only structural variable."
+            body="Depth, width, tokenizer, data order, optimizer, batch geometry, and sampled positions are fixed. Mixer placement changes."
           />
-          <Reveal className="variant-cards">
+
+          <Reveal className="ratio-atlas">
             {ratioEvidence.map((variant, index) => (
-              <button type="button" aria-label={`Explore ${variant.ratio} attention to SSM ratio`} className={`variant-card ratio-theme-${index + 1} ${ratio === variant.ratio ? 'active' : ''}`} key={variant.ratio} onClick={() => setRatio(variant.ratio)}>
-                <span className="variant-index">MODEL / 0{index + 1}</span>
-                <span className="variant-top">
-                  <b>{variant.ratio}</b>
-                  <small>attention : SSM</small>
-                </span>
-                <span className="variant-stack">{variant.attentionLayers}A <i /> {variant.mambaLayers}M</span>
+              <button
+                type="button"
+                aria-label={`Explore ${variant.ratio} attention to SSM ratio`}
+                className={`ratio-specimen specimen-${index + 1} ${ratio === variant.ratio ? 'active' : ''}`}
+                key={variant.ratio}
+                onClick={() => setRatio(variant.ratio)}
+              >
+                <span className="specimen-number">0{index + 1}</span>
+                <span className="specimen-ratio">{variant.ratio}</span>
+                <span className="specimen-claim">{ratioClaims[index]}</span>
+                <span className="specimen-mix">{variant.attentionLayers} attention / {variant.mambaLayers} Mamba-2</span>
                 <dl>
                   <div><dt>PPL ↓</dt><dd>{variant.perplexity.toFixed(3)}</dd></div>
-                  <div><dt>GEN ↑</dt><dd>{variant.generationTokensPerSecond.toFixed(2)}<small> tok/s</small></dd></div>
-                  <div><dt>8K STATE ↓</dt><dd>{variant.state8kMiB.toFixed(2)}<small> MiB</small></dd></div>
+                  <div><dt>DECODE ↑</dt><dd>{variant.generationTokensPerSecond.toFixed(2)} <small>tok/s</small></dd></div>
+                  <div><dt>8K STATE ↓</dt><dd>{variant.state8kMiB.toFixed(2)} <small>MiB</small></dd></div>
                 </dl>
-                <span className="variant-select">Route this topology <ArrowRight size={15} /></span>
+                <ArrowRight />
               </button>
             ))}
           </Reveal>
+
+          <Reveal className="topology-observatory">
+            <div className="topology-label">
+              <span>LIVE TOPOLOGY / {ratio}</span>
+              <p>Exact sixteen-layer placement. Select a ratio to reroute the stack.</p>
+            </div>
+            <LayerInstrument ratio={ratio} onRatioChange={setRatio} />
+          </Reveal>
         </section>
 
-        <section className="section lab-section" id="lab">
-          <div className="section-watermark" aria-hidden="true">RUN</div>
+        <section className="lab-section" id="lab">
+          <div className="lab-marquee" aria-hidden="true">INFERENCE / INFERENCE / INFERENCE /</div>
           <Reveal><GenerationLab key={ratio} ratio={ratio} onRatioChange={setRatio} /></Reveal>
         </section>
 
-        <section className="section evidence-section" id="evidence">
-          <SectionHeading
+        <section className="evidence-section" id="evidence">
+          <ObservationHeading
             index="03"
-            icon={<ChartLineUp size={16} weight="fill" />}
-            kicker="Measured evidence"
-            title="The trade-off changes with context."
-            body="Every chart is rendered from committed training and evaluation evidence. Exact labels stay visible without hover."
+            icon={<ChartLineUp size={16} />}
+            kicker="committed evaluation evidence"
+            title="The optimum depends on context length."
+            body="1:3 leads quality and short decode. 1:15 minimizes long-context logical state. The memory ordering crosses near 260 cached tokens."
           />
           <Reveal className="chart-layout"><TradeoffChart /><StateCrossoverChart /><RuntimeChart /></Reveal>
-          <Reveal className="finding-grid">
+          <Reveal className="finding-sequence">
             {findings.map((finding, index) => (
-              <article key={finding.label} className={`finding-card finding-${index + 1}`}>
-                <span className="finding-index">0{index + 1}</span>
+              <article key={finding.label}>
+                <span>F{index + 1}</span>
                 <strong>{finding.value}</strong>
-                <span>{finding.label}</span>
+                <h3>{finding.label}</h3>
                 <p>{finding.body}</p>
               </article>
             ))}
           </Reveal>
         </section>
 
-        <section className="section system-section" id="system">
-          <SectionHeading
+        <section className="system-section" id="system">
+          <ObservationHeading
             index="04"
-            icon={<Circuitry size={16} weight="fill" />}
-            kicker="End-to-end system"
-            title="Prompt in. Recurrent state forward. Evidence out."
-            body="Benchmarks and HTTP requests share the same generator. The service adds verification, serialization, streaming, and safe failure handling."
+            icon={<TerminalWindow size={16} />}
+            kicker="Execution path"
+            title="One generator. Two execution surfaces."
+            body="Benchmarks and HTTP requests call the same recurrent generator. The service adds verification, serialization, streaming, and bounded failure handling."
           />
           <Reveal><ArchitectureFlow /></Reveal>
-          <Reveal className="boundary-grid">
-            <article className="boundary-card proves">
-              <span><Check size={18} weight="bold" /> Supported by this study</span>
+          <Reveal className="evidence-boundary">
+            <article>
+              <span><Check /> Supported</span>
               <ul>
-                <li>1:3 wins quality and short generation in this run.</li>
-                <li>1:15 cuts 8K logical state by 66.3% versus 1:3.</li>
-                <li>The state-memory ordering crosses near 260 cached tokens.</li>
+                <li>1:3 is the best quality and short-generation condition in this run.</li>
+                <li>1:15 reduces 8K logical state by 66.3% versus 1:3.</li>
                 <li>All variants execute recurrent inference through 8K.</li>
               </ul>
             </article>
-            <article className="boundary-card limits">
-              <span><Warning size={18} weight="fill" /> Outside the evidence</span>
+            <article>
+              <span><Warning /> Not supported</span>
               <ul>
-                <li>Long-context retrieval quality: all variants failed at 2K and beyond.</li>
-                <li>Universal ratio rankings: this is one training seed.</li>
-                <li>Production factuality: sampled text can drift or repeat.</li>
-                <li>Fused-kernel Mamba claims: the implementation is pure PyTorch SSD.</li>
+                <li>Retrieval success at 2K–8K; every checkpoint failed the exact needle test.</li>
+                <li>Universal ratio rankings; the sweep uses one seed.</li>
+                <li>Fused-kernel claims; the SSM path is pure PyTorch SSD.</li>
               </ul>
             </article>
           </Reveal>
         </section>
 
         <section className="closing-section">
-          <Reveal className="closing-card">
-            <span className="closing-folio">05 / TRACE</span>
-            <div>
-              <span className="section-kicker"><Info size={16} weight="fill" /> Follow the evidence</span>
-              <h2>Inspect the model behind the surface.</h2>
-              <p>The interface is the front door. Implementation, checksummed results, failures, and the full technical explanation stay inspectable.</p>
-            </div>
-            <div className="closing-links">
-              <a href={links.project} target="_blank" rel="noreferrer"><span>01</span><GithubLogo size={19} /> Project repository <ArrowSquareOut /></a>
-              <a href={links.analysis} target="_blank" rel="noreferrer"><span>02</span><ChartLineUp size={19} /> Evaluation analysis <ArrowSquareOut /></a>
-              <a href={links.reference} target="_blank" rel="noreferrer"><span>03</span><Brain size={19} /> Technical reference <ArrowSquareOut /></a>
-            </div>
+          <div className="closing-emblem" aria-hidden="true"><img src={`${import.meta.env.BASE_URL}assets/project-emblem.png`} alt="" /></div>
+          <Reveal className="closing-copy">
+            <span>REPRODUCIBILITY / 05</span>
+            <h2>Read the evidence.<br /><em>Reproduce the run.</em></h2>
+            <p>Source, checksummed results, failure boundaries, and the complete technical reconstruction remain public and inspectable.</p>
+          </Reveal>
+          <Reveal className="closing-links">
+            <a href={links.project} target="_blank" rel="noreferrer"><span>01</span>Source repository <ArrowSquareOut /></a>
+            <a href={links.analysis} target="_blank" rel="noreferrer"><span>02</span>Evaluation analysis <ArrowSquareOut /></a>
+            <a href={links.reference} target="_blank" rel="noreferrer"><span>03</span>Technical reference <ArrowSquareOut /></a>
           </Reveal>
         </section>
       </main>
 
-      <footer>
-        <div className="footer-brand"><img src={`${import.meta.env.BASE_URL}assets/project-emblem.png`} alt="" /><span><strong>MAMBA / HYBRID LM</strong><small>Project 02 · SOTA Roadmap 2026</small></span></div>
-        <p>Measured honestly—including the parts that did not work.</p>
-        <span className="footer-version">SHOWCASE / V0.2</span>
+      <footer className="observatory-footer">
+        <div><ShieldCheck weight="fill" /><span>Checksummed checkpoints / protocol-matched evidence</span></div>
+        <p>Project 02 · Small Mamba–Transformer Hybrid LM</p>
+        <span>OBSERVATORY / V0.3</span>
       </footer>
     </>
   )

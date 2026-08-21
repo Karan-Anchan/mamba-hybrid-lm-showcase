@@ -1,8 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import '@fontsource-variable/bricolage-grotesque'
 import '@fontsource-variable/instrument-sans'
 import '@fontsource-variable/jetbrains-mono'
+import '@fontsource-variable/newsreader'
+import '@fontsource-variable/unbounded'
 import App from './App'
 import './styles.css'
 

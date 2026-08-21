@@ -2,23 +2,27 @@
 
 [Open the live showcase](https://karan-anchan.github.io/mamba-hybrid-lm-showcase/)
 
-Recruiter-facing interface for the Small Mamba-Transformer Hybrid Language Model study. The site turns the
-committed experiment evidence into an interactive generation lab, architecture instrument, and concise set of
-quality/speed/memory findings.
+Recruiter-facing interface for the Small Mamba-Transformer Hybrid Language Model study. It presents the
+fixed-compute ablation as an interactive observatory: exact protocol, architecture topology, checkpoint replay,
+quality/speed/state evidence, and the complete execution path from tokenization to streamed output.
 
 ## Visual system
 
-Version 0.2 uses a signal/state research-poster direction built around the model rather than a general product
-template. The asymmetric experiment cover, routing grid, sixteen-layer signal board, oversized ratio specimens,
-inference workbench, and publication-style plots are all rendered from HTML, CSS, SVG, and typed evidence.
+Version 0.3 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
+fixed specimen rail, irregular ratio atlas, clipped inference console, cobalt evidence field, acid execution map,
+and publication plots deliberately change composition from section to section.
 
-- Bricolage Grotesque, Instrument Sans, and JetBrains Mono are bundled locally; the page makes no third-party
+- Newsreader, Unbounded, Instrument Sans, and JetBrains Mono are bundled locally; the page makes no third-party
   font request.
-- Cyan, violet, and coral identify the 1:3, 1:7, and 1:15 variants. Signal lime marks primary actions and reading
-  progress, while mint and amber keep recurrent/live and recorded states distinct.
-- Dark instrumentation and warm-paper light themes share the same information hierarchy and persist locally.
-- Motion is attached to reading progress, layer selection, chart comparison, and measured replay. Reduced-motion
-  preferences disable nonessential movement.
+- Ultramarine, vermilion, acid chartreuse, cyan, pink, and spectral paper form distinct experimental regimes
+  while keeping the three architecture variants visually separable.
+- The atmospheric hero texture and deterministic canvas phase portrait are explicitly marked illustrative. They
+  never encode an activation, metric, model topology, or measured result.
+- Exact architecture and evidence views remain code-native HTML, CSS, and SVG derived from typed result bundles.
+- Dark observatory and bright-paper themes persist locally. Motion follows reading progress, ratio state, layer
+  selection, chart comparison, and replay; reduced-motion preferences disable nonessential animation.
+- Desktop uses a vertical navigation instrument. Mobile converts the same structure into an accessible fixed
+  bottom rail with stable section names and no horizontal overflow.
 
 ## Evidence shown
 
