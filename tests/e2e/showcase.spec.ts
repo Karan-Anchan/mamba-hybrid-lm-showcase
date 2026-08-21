@@ -61,6 +61,30 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
 })
 
 
+test('ultrawide hero keeps its narrative and result inside one centered frame', async ({ page }) => {
+  await page.setViewportSize({ width: 2048, height: 900 })
+  await page.goto('/')
+  await expectUniformHeroInsets(page)
+  const geometry = await page.evaluate(() => {
+    const hero = document.querySelector('.observatory-hero')!.getBoundingClientRect()
+    const title = document.querySelector('.hero-title-block h1')!.getBoundingClientRect()
+    const question = document.querySelector('.research-question')!.getBoundingClientRect()
+    const result = document.querySelector('.hero-conclusion')!.getBoundingClientRect()
+    return {
+      inset: Math.round(title.left - hero.left),
+      horizontalGap: Math.round(result.left - question.right),
+      verticalCenterGap: Math.round(Math.abs((result.top + result.height / 2) - (question.top + question.height / 2))),
+      overflows: document.documentElement.scrollWidth > window.innerWidth,
+    }
+  })
+  expect(geometry.inset).toBeGreaterThanOrEqual(240)
+  expect(geometry.horizontalGap).toBeGreaterThanOrEqual(24)
+  expect(geometry.horizontalGap).toBeLessThanOrEqual(400)
+  expect(geometry.verticalCenterGap).toBeLessThanOrEqual(220)
+  expect(geometry.overflows).toBe(false)
+})
+
+
 test('mobile layout switches theme without horizontal overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.emulateMedia({ colorScheme: 'dark' })

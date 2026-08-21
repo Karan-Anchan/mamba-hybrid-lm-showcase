@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title description">
+  <title id="title">Hybrid sequence observatory</title>
+  <desc id="description">A recurrent state curve joined to an attention graph.</desc>
+  <rect x="1" y="1" width="62" height="62" rx="15" fill="#071015" stroke="#31424c" stroke-width="2"/>
+  <path d="M25 14C15 14 11 19 11 25c0 7 5 10 14 10s13 3 13 8c0 5-4 8-12 8-6 0-10-2-13-6" fill="none" stroke="#65efb7" stroke-width="5" stroke-linecap="round"/>
+  <path d="M37 19 51 32 37 46M37 19v27M37 32h14" fill="none" stroke="#72ddff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M27 32h10" stroke="#d8ff35" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="37" cy="19" r="3.5" fill="#72ddff"/>
+  <circle cx="51" cy="32" r="3.5" fill="#ff572c"/>
+  <circle cx="37" cy="46" r="3.5" fill="#9c7cff"/>
+</svg>
