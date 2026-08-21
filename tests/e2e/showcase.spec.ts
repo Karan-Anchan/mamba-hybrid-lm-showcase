@@ -43,6 +43,7 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   await expect(page.getByText('Illustrative phase field—not model activations.')).toBeVisible()
   expect(await page.locator('img[src*="state-phase-field-v1.webp"]').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
   await expect(page.locator('.hero-atmosphere > img')).toHaveCSS('filter', /blur\(5px\)/)
+  await expect(page.locator('.hero-scan-beam')).toHaveCSS('animation-name', 'observatory-sweep')
   await expectDisplayTextInsideItsBox(page)
   await expectUniformHeroInsets(page)
   const heroColumnGap = await page.evaluate(() => Math.round(
@@ -77,5 +78,19 @@ test('mobile layout switches theme without horizontal overflow', async ({ page }
   expect(sectionGutters.every((gutter) => gutter >= 18)).toBe(true)
   await page.getByRole('link', { name: 'Evidence' }).click()
   await expect(page.getByText('The winner flips near 260 tokens')).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+})
+
+
+test('reduced motion collapses perpetual observatory signals', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  const animations = await page.evaluate(() => ({
+    atmosphere: getComputedStyle(document.querySelector('.hero-atmosphere > img')!).animationName,
+    scan: getComputedStyle(document.querySelector('.hero-scan-beam')!).animationName,
+    topology: getComputedStyle(document.querySelector('.layer-strip')!, '::after').animationName,
+    emblem: getComputedStyle(document.querySelector('.observatory-mark')!, '::before').animationName,
+  }))
+  expect(animations).toEqual({ atmosphere: 'none', scan: 'none', topology: 'none', emblem: 'none' })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })

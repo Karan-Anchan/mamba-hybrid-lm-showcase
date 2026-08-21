@@ -1,10 +1,10 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react'
 import {
   ArrowDown, ArrowRight, ArrowSquareOut, Brain, ChartLineUp, Check,
   Circuitry, Code, Database, GithubLogo, Moon, ShieldCheck, Sun,
   TerminalWindow, Warning,
 } from '@phosphor-icons/react'
-import { motion, useScroll, useSpring } from 'motion/react'
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring } from 'motion/react'
 import { RuntimeChart, StateCrossoverChart, TradeoffChart } from './components/EvidenceCharts'
 import { GenerationLab } from './components/GenerationLab'
 import { LayerInstrument } from './components/LayerInstrument'
@@ -57,7 +57,7 @@ function ArchitectureFlow() {
           <i>{stage.icon}</i>
           <strong>{stage.title}</strong>
           <p>{stage.body}</p>
-          {index < stages.length - 1 && <ArrowRight aria-hidden="true" />}
+          {index < stages.length - 1 && <ArrowRight className="flow-arrow" aria-hidden="true" />}
         </div>
       ))}
     </div>
@@ -67,8 +67,22 @@ function ArchitectureFlow() {
 function App() {
   const [ratio, setRatio] = useState<Ratio>('1:3')
   const [theme, setTheme] = useState<Theme>(getInitialTheme)
+  const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 130, damping: 25, restDelta: 0.001 })
+  const probeX = useMotionValue(0)
+  const probeY = useMotionValue(0)
+  const probeOpacity = useMotionValue(0)
+  const probeSpringX = useSpring(probeX, { stiffness: 190, damping: 28, mass: 0.55 })
+  const probeSpringY = useSpring(probeY, { stiffness: 190, damping: 28, mass: 0.55 })
+
+  function moveHeroProbe(event: ReactPointerEvent<HTMLElement>) {
+    if (reduceMotion || event.pointerType === 'touch') return
+    const bounds = event.currentTarget.getBoundingClientRect()
+    probeX.set(event.clientX - bounds.left - 170)
+    probeY.set(event.clientY - bounds.top - 170)
+    probeOpacity.set(0.72)
+  }
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -107,11 +121,22 @@ function App() {
       </header>
 
       <main id="main" className="observatory-main">
-        <section className="observatory-hero" id="top">
+        <section
+          className="observatory-hero"
+          id="top"
+          onPointerMove={moveHeroProbe}
+          onPointerLeave={() => probeOpacity.set(0)}
+        >
           <div className="hero-atmosphere" aria-hidden="true">
             <img src={`${import.meta.env.BASE_URL}assets/state-phase-field-v1.webp`} alt="" />
             <PhasePortrait ratio={ratio} />
             <div className="hero-scan" />
+            <div className="hero-scan-beam" aria-hidden="true" />
+            <motion.div
+              className="hero-probe"
+              aria-hidden="true"
+              style={{ x: probeSpringX, y: probeSpringY, opacity: probeOpacity }}
+            />
           </div>
 
           <div className="hero-protocol">

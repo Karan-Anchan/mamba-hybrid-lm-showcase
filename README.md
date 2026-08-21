@@ -8,7 +8,7 @@ quality/speed/state evidence, and the complete execution path from tokenization 
 
 ## Visual system
 
-Version 0.3.2 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
+Version 0.3.3 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
 fixed specimen rail, irregular ratio atlas, clipped inference console, cobalt evidence field, acid execution map,
 and publication plots deliberately change composition from section to section.
 
@@ -25,6 +25,10 @@ and publication plots deliberately change composition from section to section.
   bottom rail with stable section names and no horizontal overflow.
 - The 0.3.1 harmony pass softens only the atmospheric raster, preserves sharp technical overlays, normalizes
   section gutters, and keeps every major display face inside a measured line box at desktop and mobile widths.
+- The 0.3.2 grid pass aligns all six hero anchors to one responsive inset and protects the question-to-result gap.
+- The 0.3.3 motion pass adds sparse state packets, ambient scanning, pointer-responsive light, topology rerouting,
+  in-view chart drawing, ordered execution pulses, and tactile controls. These effects visualize hierarchy, data
+  movement, or state change; none of them claim model activity or measured telemetry.
 
 ## Evidence shown
 
@@ -77,8 +81,8 @@ npm run test:e2e
 ```
 
 The test suite covers evidence identity, layer patterns, state equations, recorded/live presentation boundaries,
-theme persistence, responsive overflow, and the measured replay flow. GitHub Actions repeats static, component,
-production-build, and Chromium checks before Pages deployment.
+theme persistence, responsive overflow, reduced-motion collapse, active motion markers, and the measured replay
+flow. GitHub Actions repeats static, component, production-build, and Chromium checks before Pages deployment.
 
 ## Deployment
 

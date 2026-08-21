@@ -1,5 +1,5 @@
 import { ArrowRight, CirclesThreePlus, Pulse } from '@phosphor-icons/react'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { layerPattern, ratioEvidence, type Ratio } from '../data/evidence'
 
 export function LayerInstrument({ ratio, onRatioChange }: {
@@ -8,6 +8,7 @@ export function LayerInstrument({ ratio, onRatioChange }: {
 }) {
   const pattern = layerPattern(ratio)
   const evidence = ratioEvidence.find((item) => item.ratio === ratio)!
+  const reduceMotion = useReducedMotion()
 
   return (
     <div className="layer-instrument" aria-label={`${ratio} architecture instrument`}>
@@ -38,8 +39,14 @@ export function LayerInstrument({ ratio, onRatioChange }: {
           {pattern.map((kind, index) => (
             <motion.div
               layout
-              key={index}
+              key={`${ratio}-${index}-${kind}`}
               className={`layer-node ${kind}`}
+              data-motion="reroute-layer"
+              initial={reduceMotion ? false : { opacity: 0.35, y: 12, scaleY: 0.82 }}
+              animate={{ opacity: 1, y: 0, scaleY: 1 }}
+              transition={reduceMotion ? { duration: 0 } : {
+                type: 'spring', stiffness: 260, damping: 24, delay: index * 0.018,
+              }}
               title={`Layer ${index + 1}: ${kind === 'attention' ? 'causal attention' : 'Mamba-2'}`}
               aria-label={`Layer ${index + 1}, ${kind === 'attention' ? 'causal attention' : 'Mamba-2'}`}
             >
@@ -67,7 +74,13 @@ export function LayerInstrument({ ratio, onRatioChange }: {
         <span><i className="swatch attention" /> Attention · global lookup</span>
       </div>
 
-      <motion.div className="instrument-readout" key={ratio} initial={{ opacity: 0.4 }} animate={{ opacity: 1 }}>
+      <motion.div
+        className="instrument-readout"
+        key={ratio}
+        initial={reduceMotion ? false : { opacity: 0.35 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: reduceMotion ? 0 : 0.32 }}
+      >
         <div className="readout-mark"><CirclesThreePlus size={21} /> {ratio}</div>
         <dl>
           <div><dt>attention</dt><dd>{evidence.attentionLayers}</dd></div>

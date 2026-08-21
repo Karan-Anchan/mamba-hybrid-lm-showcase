@@ -86,6 +86,40 @@ export function PhasePortrait({ ratio }: { ratio: Ratio }) {
         context.fillRect(x - 0.75, height * 0.16, 1.5, height * 0.66)
       }
 
+      for (let packet = 0; packet < 12; packet += 1) {
+        const lane = (packet * 7 + settings.cadence) % 28
+        const position = reduceMotion ? (packet + 1) / 13 : (time * 0.22 + packet / 12) % 1
+        const sampleCount = Math.max(1, Math.round(position * 92))
+        const base = (lane + 0.7) / 29
+        let state = seeded(lane, settings.cadence) * 0.8
+
+        for (let step = 0; step <= sampleCount; step += 1) {
+          const progress = step / 92
+          const input = Math.sin(progress * (8 + lane * 0.17) + time * (1.4 + lane * 0.013))
+          state = settings.decay * state + (1 - settings.decay) * input
+        }
+
+        const pull = Math.exp(-Math.pow(position - pointerRef.current.x, 2) * 16)
+        const packetX = position * width
+        const packetY = height * (
+          base
+          + state * (0.11 + 0.035 * Math.sin(lane))
+          + Math.sin(position * 13 + lane * 0.9 + time) * 0.012
+          + pull * (pointerRef.current.y - base) * 0.11
+        )
+        const packetRadius = 1.6 + (packet % settings.cadence === 0 ? 1.2 : 0)
+
+        context.fillStyle = settings.colors[packet % settings.colors.length]
+        context.globalAlpha = 0.16
+        context.beginPath()
+        context.arc(packetX, packetY, packetRadius * 3.2, 0, Math.PI * 2)
+        context.fill()
+        context.globalAlpha = 0.82
+        context.beginPath()
+        context.arc(packetX, packetY, packetRadius, 0, Math.PI * 2)
+        context.fill()
+      }
+
       context.globalAlpha = 1
       context.globalCompositeOperation = 'source-over'
       if (!reduceMotion) animation = window.requestAnimationFrame(draw)

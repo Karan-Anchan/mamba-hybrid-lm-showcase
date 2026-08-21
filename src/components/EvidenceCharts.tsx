@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Cpu, Gauge, Lightning, Memory } from '@phosphor-icons/react'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { ratioEvidence, runtimeComparison, stateCurves, type Ratio } from '../data/evidence'
 
 type Metric = 'quality' | 'speed' | 'memory'
@@ -15,6 +15,7 @@ const stateContexts = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
 
 export function TradeoffChart() {
   const [metric, setMetric] = useState<Metric>('quality')
+  const reduceMotion = useReducedMotion()
   const config = metricConfig[metric]
   const maximum = Math.max(...ratioEvidence.map(config.value))
 
@@ -40,7 +41,7 @@ export function TradeoffChart() {
                 <motion.span
                   className={`ratio-bar-fill ratio-${variant.ratio.replace(':', '-')}`}
                   animate={{ width: `${100 * value / maximum}%` }}
-                  transition={{ type: 'spring', stiffness: 170, damping: 24 }}
+                  transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 170, damping: 24 }}
                 />
               </div>
               <span>{config.format(value)}</span>
@@ -59,6 +60,7 @@ function stateMiB(ratio: Ratio, context: number) {
 }
 
 export function StateCrossoverChart() {
+  const reduceMotion = useReducedMotion()
   const x = (context: number) => 60 + ((Math.log2(context) - 5) / 8) * 620
   const y = (mib: number) => 272 - (mib / 66) * 220
   const points = Object.fromEntries(
@@ -76,8 +78,30 @@ export function StateCrossoverChart() {
         <desc id="cross-desc">The 1:3 variant starts lowest, then crosses 1:15 around 260 tokens as attention KV memory grows.</desc>
         {[0, 16, 32, 48, 64].map((value) => <g key={value}><line x1="60" x2="680" y1={y(value)} y2={y(value)} /><text x="48" y={y(value) + 4} textAnchor="end">{value}</text></g>)}
         {stateContexts.map((context) => <g key={context}><line x1={x(context)} x2={x(context)} y1="52" y2="272" /><text x={x(context)} y="296" textAnchor="middle">{context < 1024 ? context : `${context / 1024}K`}</text></g>)}
-        {ratioEvidence.map((variant) => <polyline key={variant.ratio} className={`curve ratio-${variant.ratio.replace(':', '-')}`} points={points[variant.ratio]} />)}
-        <line className="crossover-line" x1={crossoverX} x2={crossoverX} y1="52" y2="272" />
+        {ratioEvidence.map((variant, index) => (
+          <motion.polyline
+            key={variant.ratio}
+            className={`curve ratio-${variant.ratio.replace(':', '-')}`}
+            points={points[variant.ratio]}
+            initial={reduceMotion ? false : { pathLength: 0, opacity: 0.3 }}
+            whileInView={{ pathLength: 1, opacity: 1 }}
+            viewport={{ once: true, amount: 0.55 }}
+            transition={reduceMotion ? { duration: 0 } : {
+              duration: 0.85, delay: index * 0.12, ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+        ))}
+        <motion.line
+          className="crossover-line"
+          x1={crossoverX}
+          x2={crossoverX}
+          y1="52"
+          y2="272"
+          initial={reduceMotion ? false : { pathLength: 0, opacity: 0 }}
+          whileInView={{ pathLength: 1, opacity: 1 }}
+          viewport={{ once: true, amount: 0.55 }}
+          transition={{ duration: reduceMotion ? 0 : 0.6, delay: reduceMotion ? 0 : 0.42 }}
+        />
         <text className="crossover-label" x={crossoverX + 8} y="72">≈260</text>
         <text className="axis-label" x="370" y="323" textAnchor="middle">cached tokens · log₂ scale</text>
         <text className="axis-label" transform="translate(15 168) rotate(-90)" textAnchor="middle">logical state · MiB</text>
@@ -88,16 +112,28 @@ export function StateCrossoverChart() {
 }
 
 export function RuntimeChart() {
+  const reduceMotion = useReducedMotion()
   const max = runtimeComparison.cuda.tokensPerSecond
   return (
     <article className="chart-card runtime-card">
       <div className="chart-head compact">
         <div><span className="card-kicker"><Cpu size={16} /> Local serving</span><h3>CPU is viable for the narrow demo</h3><p>Protocol-matched 1:3 · 48 generated tokens.</p></div>
       </div>
-      {Object.entries(runtimeComparison).map(([key, runtime]) => (
+      {Object.entries(runtimeComparison).map(([key, runtime], index) => (
         <div className="runtime-row" key={key}>
           <div><strong>{runtime.label}</strong><span>{runtime.ttftMs.toFixed(1)} ms TTFT</span></div>
-          <div className="runtime-track"><span className={key} style={{ width: `${100 * runtime.tokensPerSecond / max}%` }} /></div>
+          <div className="runtime-track">
+            <motion.span
+              className={key}
+              style={{ width: `${100 * runtime.tokensPerSecond / max}%`, transformOrigin: '0 50%' }}
+              initial={reduceMotion ? false : { scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.7 }}
+              transition={reduceMotion ? { duration: 0 } : {
+                type: 'spring', stiffness: 150, damping: 23, delay: index * 0.12,
+              }}
+            />
+          </div>
           <b>{runtime.tokensPerSecond.toFixed(2)}<small> tok/s</small></b>
         </div>
       ))}
