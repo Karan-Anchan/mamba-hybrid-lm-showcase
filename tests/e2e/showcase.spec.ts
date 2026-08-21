@@ -42,7 +42,7 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   await expect(page.getByRole('heading', { name: /Attention under constraint/i })).toBeVisible()
   await expect(page.getByText('Illustrative phase field—not model activations.')).toBeVisible()
   expect(await page.locator('img[src*="state-phase-field-v1.webp"]').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
-  await expect(page.locator('.hero-atmosphere > img')).toHaveCSS('filter', /blur\(5px\)/)
+  await expect(page.locator('.hero-atmosphere > img')).toHaveCSS('filter', /blur\(8px\)/)
   await expect(page.locator('.hero-scan-beam')).toHaveCSS('animation-name', 'observatory-sweep')
   await expectDisplayTextInsideItsBox(page)
   await expectUniformHeroInsets(page)
@@ -58,30 +58,6 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   await page.getByRole('button', { name: '1:15' }).first().click()
   await expect(page.getByLabel('1:15 architecture instrument')).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
-})
-
-
-test('ultrawide hero keeps its narrative and result inside one centered frame', async ({ page }) => {
-  await page.setViewportSize({ width: 2048, height: 900 })
-  await page.goto('/')
-  await expectUniformHeroInsets(page)
-  const geometry = await page.evaluate(() => {
-    const hero = document.querySelector('.observatory-hero')!.getBoundingClientRect()
-    const title = document.querySelector('.hero-title-block h1')!.getBoundingClientRect()
-    const question = document.querySelector('.research-question')!.getBoundingClientRect()
-    const result = document.querySelector('.hero-conclusion')!.getBoundingClientRect()
-    return {
-      inset: Math.round(title.left - hero.left),
-      horizontalGap: Math.round(result.left - question.right),
-      verticalCenterGap: Math.round(Math.abs((result.top + result.height / 2) - (question.top + question.height / 2))),
-      overflows: document.documentElement.scrollWidth > window.innerWidth,
-    }
-  })
-  expect(geometry.inset).toBeGreaterThanOrEqual(240)
-  expect(geometry.horizontalGap).toBeGreaterThanOrEqual(24)
-  expect(geometry.horizontalGap).toBeLessThanOrEqual(400)
-  expect(geometry.verticalCenterGap).toBeLessThanOrEqual(220)
-  expect(geometry.overflows).toBe(false)
 })
 
 

@@ -8,7 +8,7 @@ quality/speed/state evidence, and the complete execution path from tokenization 
 
 ## Visual system
 
-Version 0.3.4 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
+Version 0.3.5 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
 fixed specimen rail, irregular ratio atlas, clipped inference console, cobalt evidence field, acid execution map,
 and publication plots deliberately change composition from section to section.
 
@@ -29,8 +29,8 @@ and publication plots deliberately change composition from section to section.
 - The 0.3.3 motion pass adds sparse state packets, ambient scanning, pointer-responsive light, topology rerouting,
   in-view chart drawing, ordered execution pulses, and tactile controls. These effects visualize hierarchy, data
   movement, or state change; none of them claim model activity or measured telemetry.
-- The 0.3.4 composition pass replaces the soft raster mark with a compact hybrid-state vector glyph and keeps
-  every ultrawide hero anchor inside one centered 1440 px frame without changing compact-screen geometry.
+- The 0.3.5 restoration pass returns the owner-supplied emblem and prior hero geometry, while increasing only the
+  atmospheric raster blur to 8 px. Canvas signals, typography, controls, and evidence remain sharp.
 
 ## Evidence shown
 
