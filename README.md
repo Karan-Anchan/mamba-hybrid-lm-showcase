@@ -1,5 +1,7 @@
 # Mamba Hybrid LM Showcase
 
+[Open the live showcase](https://karan-anchan.github.io/mamba-hybrid-lm-showcase/)
+
 Recruiter-facing interface for the Small Mamba-Transformer Hybrid Language Model study. The site turns the
 committed experiment evidence into an interactive generation lab, architecture instrument, and concise set of
 quality/speed/memory findings.

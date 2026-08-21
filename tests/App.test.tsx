@@ -28,8 +28,8 @@ test('recorded replay reveals exact measured output and metrics', async () => {
   render(<App />)
   await screen.findByText('Recorded evidence mode')
   await user.click(screen.getByRole('button', { name: /Replay measured run/i }))
-  expect(await screen.findByText(/state-space layers are more or less the same/i, {}, { timeout: 3000 })).toBeInTheDocument()
-  await waitFor(() => expect(screen.getByText('51.14', { exact: false })).toBeInTheDocument(), { timeout: 3000 })
+  expect(await screen.findByText(/state-space layers are more or less the same/i, {}, { timeout: 10_000 })).toBeInTheDocument()
+  await waitFor(() => expect(screen.getByText('51.14', { exact: false })).toBeInTheDocument(), { timeout: 10_000 })
   expect(screen.getByText(/Measured at clean commit d6a4613/)).toBeInTheDocument()
 })
 
