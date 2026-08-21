@@ -7,6 +7,7 @@ import App from '../src/App'
 test('presents the research question and an honest recorded fallback', async () => {
   render(<App />)
   expect(screen.getByRole('heading', { name: /How much attention/i })).toBeInTheDocument()
+  expect(screen.getByText('research artifact 02')).toBeInTheDocument()
   expect(screen.getByText('700M')).toBeInTheDocument()
   expect(await screen.findByText('Recorded evidence mode')).toBeInTheDocument()
   expect(screen.getByText('No public compute host is configured.')).toBeInTheDocument()
@@ -52,4 +53,5 @@ test('theme control persists the selected appearance', async () => {
   await user.click(screen.getByRole('button', { name: 'Switch to light theme' }))
   expect(document.documentElement).toHaveAttribute('data-theme', 'light')
   expect(window.localStorage.getItem('mamba-showcase-theme')).toBe('light')
+  expect(document.querySelector('meta[name="theme-color"]')).toHaveAttribute('content', '#ebe8de')
 })

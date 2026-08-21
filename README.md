@@ -6,6 +6,20 @@ Recruiter-facing interface for the Small Mamba-Transformer Hybrid Language Model
 committed experiment evidence into an interactive generation lab, architecture instrument, and concise set of
 quality/speed/memory findings.
 
+## Visual system
+
+Version 0.2 uses a signal/state research-poster direction built around the model rather than a general product
+template. The asymmetric experiment cover, routing grid, sixteen-layer signal board, oversized ratio specimens,
+inference workbench, and publication-style plots are all rendered from HTML, CSS, SVG, and typed evidence.
+
+- Bricolage Grotesque, Instrument Sans, and JetBrains Mono are bundled locally; the page makes no third-party
+  font request.
+- Cyan, violet, and coral identify the 1:3, 1:7, and 1:15 variants. Signal lime marks primary actions and reading
+  progress, while mint and amber keep recurrent/live and recorded states distinct.
+- Dark instrumentation and warm-paper light themes share the same information hierarchy and persist locally.
+- Motion is attached to reading progress, layer selection, chart comparison, and measured replay. Reduced-motion
+  preferences disable nonessential movement.
+
 ## Evidence shown
 
 - Three 16-layer models with attention:SSM ratios 1:3, 1:7, and 1:15.

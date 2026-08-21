@@ -3,9 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0b1020" />
+    <meta name="theme-color" content="#090a0b" />
     <meta name="description" content="Interactive evidence showcase for a 52M-parameter Mamba-2 and causal-attention hybrid language model study." />
     <link rel="icon" type="image/png" href="%BASE_URL%assets/project-emblem.png" />
+    <script>
+      try {
+        const storedTheme = localStorage.getItem('mamba-showcase-theme')
+        const theme = storedTheme === 'dark' || storedTheme === 'light'
+          ? storedTheme
+          : (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+        document.documentElement.dataset.theme = theme
+        document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#090a0b' : '#ebe8de'
+      } catch { /* I apply the theme again after startup. */ }
+    </script>
     <title>Mamba Hybrid LM · Experiment Showcase</title>
   </head>
   <body>
