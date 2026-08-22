@@ -46,22 +46,7 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', /project-emblem\.png\?v=2$/)
   await expect(page.locator('.hero-atmosphere > img')).toHaveCSS('filter', /blur\(8px\)/)
   await expect(page.locator('.hero-scan-beam')).toHaveCSS('animation-name', 'observatory-sweep')
-  await expect(page.locator('[data-visual="hybrid-routing"]')).toBeVisible()
-  await expect(page.getByLabel('1:3 hybrid routing diagram: 4 attention layers and 12 Mamba-2 layers')).toBeVisible()
-  const routingClearance = await page.evaluate(() => {
-    const diagram = document.querySelector('.hero-routing')!.getBoundingClientRect()
-    const question = document.querySelector('.research-question')!.getBoundingClientRect()
-    const controls = document.querySelector('.hero-controls')!.getBoundingClientRect()
-    const result = document.querySelector('.hero-conclusion')!.getBoundingClientRect()
-    return {
-      fromQuestion: Math.round(diagram.left - question.right),
-      fromControls: Math.round(diagram.top - controls.bottom),
-      fromResult: Math.round(result.top - diagram.bottom),
-    }
-  })
-  expect(routingClearance.fromQuestion).toBeGreaterThanOrEqual(18)
-  expect(routingClearance.fromControls).toBeGreaterThanOrEqual(12)
-  expect(routingClearance.fromResult).toBeGreaterThanOrEqual(20)
+  await expect(page.locator('.hero-routing')).toHaveCount(0)
   await expectDisplayTextInsideItsBox(page)
   await expectUniformHeroInsets(page)
   await expect(page.locator('.observatory-mark img')).toHaveCSS('width', '48px')
@@ -75,7 +60,6 @@ test('desktop visitor can replay measured generation and inspect a ratio', async
   await expect(page.getByText(/state-space layers are more or less the same/i)).toBeVisible({ timeout: 5000 })
   await expect(page.getByText(/Measured at clean commit d6a4613/)).toBeVisible()
   await page.getByRole('button', { name: '1:15' }).first().click()
-  await expect(page.getByLabel('1:15 hybrid routing diagram: 1 attention layer and 15 Mamba-2 layers')).toBeVisible()
   await expect(page.getByLabel('1:15 architecture instrument')).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
@@ -90,7 +74,7 @@ test('mobile layout switches theme without horizontal overflow', async ({ page }
   await expectDisplayTextInsideItsBox(page)
   await expectUniformHeroInsets(page)
   await expect(page.locator('.observatory-mark img')).toHaveCSS('width', '38px')
-  await expect(page.locator('[data-visual="hybrid-routing"]')).toBeHidden()
+  await expect(page.locator('.hero-routing')).toHaveCount(0)
   const mobileFlowGaps = await page.locator('.hero-title-block,.hero-conclusion,.hero-controls,.hero-actions,.visual-disclosure').evaluateAll((elements) => elements
     .slice(1)
     .map((element, index) => Math.round(element.getBoundingClientRect().top - elements[index].getBoundingClientRect().bottom)))
@@ -112,14 +96,13 @@ test('reduced motion collapses perpetual observatory signals', async ({ page }) 
     scan: getComputedStyle(document.querySelector('.hero-scan-beam')!).animationName,
     topology: getComputedStyle(document.querySelector('.layer-strip')!, '::after').animationName,
     emblem: getComputedStyle(document.querySelector('.observatory-mark')!, '::before').animationName,
-    routingPackets: document.querySelectorAll('.routing-packet').length,
   }))
-  expect(animations).toEqual({ atmosphere: 'none', scan: 'none', topology: 'none', emblem: 'none', routingPackets: 0 })
+  expect(animations).toEqual({ atmosphere: 'none', scan: 'none', topology: 'none', emblem: 'none' })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
 
 
-test('hero composition remains coherent across common viewport classes', async ({ page }) => {
+test('hero content frame remains centered across common viewport classes', async ({ page }) => {
   const viewports = [
     { name: 'small phone', width: 360, height: 800 },
     { name: 'phone', width: 390, height: 844 },
@@ -149,50 +132,38 @@ test('hero composition remains coherent across common viewport classes', async (
         }
       }
       const hero = rect('.observatory-hero')
-      const title = rect('.hero-title-block h1')
       const question = rect('.research-question')
-      const diagram = rect('.hero-routing')
       const controls = rect('.hero-controls')
       const result = rect('.hero-conclusion')
       const actions = rect('.hero-actions')
       const disclosure = rect('.visual-disclosure')
-      const titleGlyphs = Array.from(document.querySelectorAll('.hero-title-block h1 > *')).map((element) => {
-        const range = document.createRange()
-        range.selectNodeContents(element)
-        const bounds = range.getBoundingClientRect()
-        return { left: bounds.left, top: bounds.top, right: bounds.right, bottom: bounds.bottom }
-      })
-      const overlappingTitleGlyphRight = Math.max(
-        ...titleGlyphs
-          .filter((glyph) => glyph.top < diagram.bottom && glyph.bottom > diagram.top)
-          .map((glyph) => glyph.right),
-      )
+      const title = rect('.hero-title-block h1')
+      const leftInset = title.left - hero.left
+      const rightInset = hero.right - result.right
       return {
-        hero, title, question, diagram, controls, result, actions, disclosure, overlappingTitleGlyphRight,
+        hero, title, question, controls, result, actions, disclosure,
+        diagramExists: document.querySelector('.hero-routing') !== null,
+        frameWidth: result.right - title.left,
+        leftInset,
+        rightInset,
         overflow: document.documentElement.scrollWidth > window.innerWidth,
         viewport: { width: window.innerWidth, height: window.innerHeight },
       }
     })
 
     expect(geometry.overflow, `${viewport.name} should not overflow horizontally`).toBe(false)
+    expect(geometry.diagramExists, `${viewport.name} should not render the removed schematic`).toBe(false)
+    expect(Math.abs(geometry.leftInset - geometry.rightInset), `${viewport.name} should have equal side padding`).toBeLessThanOrEqual(1)
+    expect(geometry.frameWidth, `${viewport.name} content frame should remain bounded`).toBeLessThanOrEqual(1601)
 
-    if (viewport.width <= 1180) {
-      expect(geometry.diagram.display, `${viewport.name} should use the compact hero flow`).toBe('none')
-    } else {
-      expect(geometry.diagram.display, `${viewport.name} should show the routing schematic`).not.toBe('none')
-      expect(geometry.diagram.top - geometry.controls.bottom, `${viewport.name} selector clearance`).toBeGreaterThanOrEqual(8)
-      expect(geometry.result.top - geometry.diagram.bottom, `${viewport.name} result clearance`).toBeGreaterThanOrEqual(12)
-      expect(geometry.diagram.left - geometry.question.right, `${viewport.name} question clearance`).toBeGreaterThanOrEqual(24)
+    if (viewport.width > 1180) {
       expect(geometry.actions.bottom, `${viewport.name} actions inside viewport`).toBeLessThanOrEqual(geometry.viewport.height)
       expect(geometry.disclosure.bottom, `${viewport.name} disclosure inside viewport`).toBeLessThanOrEqual(geometry.viewport.height)
       expect(geometry.hero.bottom, `${viewport.name} hero fits viewport`).toBeLessThanOrEqual(geometry.viewport.height + 1)
       expect(geometry.actions.top - geometry.question.bottom, `${viewport.name} question/actions clearance`).toBeGreaterThanOrEqual(12)
-    }
-
-    if (viewport.width > 1180 && viewport.width < 1600) {
-      expect(Math.abs(geometry.diagram.right - geometry.result.right), `${viewport.name} diagram/result alignment`).toBeLessThanOrEqual(1)
       expect(Math.abs(geometry.controls.right - geometry.result.right), `${viewport.name} selector/result alignment`).toBeLessThanOrEqual(1)
-      expect(geometry.diagram.left - geometry.overlappingTitleGlyphRight, `${viewport.name} title-glyph clearance`).toBeGreaterThanOrEqual(24)
+      expect(geometry.result.left - geometry.question.right, `${viewport.name} column clearance`).toBeGreaterThanOrEqual(24)
+      expect(geometry.result.left - geometry.question.right, `${viewport.name} columns should not drift apart`).toBeLessThanOrEqual(520)
     }
   }
 })

@@ -7,7 +7,6 @@ import {
 import { motion, useMotionValue, useReducedMotion, useScroll, useSpring } from 'motion/react'
 import { RuntimeChart, StateCrossoverChart, TradeoffChart } from './components/EvidenceCharts'
 import { GenerationLab } from './components/GenerationLab'
-import { HeroRoutingDiagram } from './components/HeroRoutingDiagram'
 import { LayerInstrument } from './components/LayerInstrument'
 import { PhasePortrait } from './components/PhasePortrait'
 import { Reveal } from './components/Reveal'
@@ -156,8 +155,6 @@ function App() {
             </h1>
             <p className="research-question">At fixed compute, how does attention frequency alter validation perplexity, recurrent decode rate, and 8K state memory?</p>
           </div>
-
-          <HeroRoutingDiagram ratio={ratio} />
 
           <div className="hero-conclusion">
             <span>PRIMARY RESULT</span>
