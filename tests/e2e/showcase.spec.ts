@@ -117,3 +117,82 @@ test('reduced motion collapses perpetual observatory signals', async ({ page }) 
   expect(animations).toEqual({ atmosphere: 'none', scan: 'none', topology: 'none', emblem: 'none', routingPackets: 0 })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
+
+
+test('hero composition remains coherent across common viewport classes', async ({ page }) => {
+  const viewports = [
+    { name: 'small phone', width: 360, height: 800 },
+    { name: 'phone', width: 390, height: 844 },
+    { name: 'large phone', width: 430, height: 932 },
+    { name: 'portrait tablet', width: 768, height: 1024 },
+    { name: 'landscape tablet', width: 1024, height: 768 },
+    { name: 'small laptop', width: 1280, height: 720 },
+    { name: 'laptop', width: 1366, height: 768 },
+    { name: 'desktop', width: 1440, height: 900 },
+    { name: 'large desktop', width: 1536, height: 864 },
+    { name: 'full HD', width: 1920, height: 1080 },
+    { name: 'short ultrawide', width: 2048, height: 803 },
+    { name: 'QHD', width: 2560, height: 1440 },
+  ]
+
+  await page.goto('/')
+
+  for (const viewport of viewports) {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height })
+    const geometry = await page.evaluate(() => {
+      const rect = (selector: string) => {
+        const element = document.querySelector(selector)!
+        const bounds = element.getBoundingClientRect()
+        return {
+          left: bounds.left, top: bounds.top, right: bounds.right, bottom: bounds.bottom,
+          width: bounds.width, height: bounds.height, display: getComputedStyle(element).display,
+        }
+      }
+      const hero = rect('.observatory-hero')
+      const title = rect('.hero-title-block h1')
+      const question = rect('.research-question')
+      const diagram = rect('.hero-routing')
+      const controls = rect('.hero-controls')
+      const result = rect('.hero-conclusion')
+      const actions = rect('.hero-actions')
+      const disclosure = rect('.visual-disclosure')
+      const titleGlyphs = Array.from(document.querySelectorAll('.hero-title-block h1 > *')).map((element) => {
+        const range = document.createRange()
+        range.selectNodeContents(element)
+        const bounds = range.getBoundingClientRect()
+        return { left: bounds.left, top: bounds.top, right: bounds.right, bottom: bounds.bottom }
+      })
+      const overlappingTitleGlyphRight = Math.max(
+        ...titleGlyphs
+          .filter((glyph) => glyph.top < diagram.bottom && glyph.bottom > diagram.top)
+          .map((glyph) => glyph.right),
+      )
+      return {
+        hero, title, question, diagram, controls, result, actions, disclosure, overlappingTitleGlyphRight,
+        overflow: document.documentElement.scrollWidth > window.innerWidth,
+        viewport: { width: window.innerWidth, height: window.innerHeight },
+      }
+    })
+
+    expect(geometry.overflow, `${viewport.name} should not overflow horizontally`).toBe(false)
+
+    if (viewport.width <= 1180) {
+      expect(geometry.diagram.display, `${viewport.name} should use the compact hero flow`).toBe('none')
+    } else {
+      expect(geometry.diagram.display, `${viewport.name} should show the routing schematic`).not.toBe('none')
+      expect(geometry.diagram.top - geometry.controls.bottom, `${viewport.name} selector clearance`).toBeGreaterThanOrEqual(8)
+      expect(geometry.result.top - geometry.diagram.bottom, `${viewport.name} result clearance`).toBeGreaterThanOrEqual(12)
+      expect(geometry.diagram.left - geometry.question.right, `${viewport.name} question clearance`).toBeGreaterThanOrEqual(24)
+      expect(geometry.actions.bottom, `${viewport.name} actions inside viewport`).toBeLessThanOrEqual(geometry.viewport.height)
+      expect(geometry.disclosure.bottom, `${viewport.name} disclosure inside viewport`).toBeLessThanOrEqual(geometry.viewport.height)
+      expect(geometry.hero.bottom, `${viewport.name} hero fits viewport`).toBeLessThanOrEqual(geometry.viewport.height + 1)
+      expect(geometry.actions.top - geometry.question.bottom, `${viewport.name} question/actions clearance`).toBeGreaterThanOrEqual(12)
+    }
+
+    if (viewport.width > 1180 && viewport.width < 1600) {
+      expect(Math.abs(geometry.diagram.right - geometry.result.right), `${viewport.name} diagram/result alignment`).toBeLessThanOrEqual(1)
+      expect(Math.abs(geometry.controls.right - geometry.result.right), `${viewport.name} selector/result alignment`).toBeLessThanOrEqual(1)
+      expect(geometry.diagram.left - geometry.overlappingTitleGlyphRight, `${viewport.name} title-glyph clearance`).toBeGreaterThanOrEqual(24)
+    }
+  }
+})

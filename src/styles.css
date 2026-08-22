@@ -219,8 +219,8 @@ strong { font-weight: 650; }
 .hero-routing {
   --routing-mamba: #65efb7;
   --routing-attention: #72ddff;
-  position: absolute; top: clamp(220px, 29vh, 300px); left: clamp(620px, 51%, 1180px); z-index: 6;
-  width: clamp(380px, 30vw, 620px); margin: 0; color: rgb(255 249 236 / 0.82);
+  position: absolute; top: clamp(176px, calc(50% - 180px), 300px); right: var(--hero-gutter); z-index: 6;
+  width: min(440px, 38vw); margin: 0; color: rgb(255 249 236 / 0.82);
   pointer-events: none; filter: drop-shadow(0 18px 32px rgb(2 2 5 / 0.34));
 }
 .hero-routing figcaption {
@@ -634,6 +634,33 @@ strong { font-weight: 650; }
 
 @media (hover: none), (pointer: coarse) {
   .hero-probe { display: none; }
+}
+
+@media (min-width: 901px) {
+  .hero-title-block { padding-bottom: clamp(64px, 8vh, 120px); }
+}
+
+@media (min-width: 1181px) and (max-width: 1599px) {
+  .hero-controls { grid-template-columns: repeat(3, 1fr); width: 440px; }
+  .hero-controls button {
+    grid-template-columns: 1fr; min-width: 0; text-align: center;
+    border-right: 1px solid rgb(255 255 255 / 0.17); border-bottom: 0;
+  }
+  .hero-controls button:last-child { border-right: 0; }
+  .hero-routing { width: 440px; }
+  .hero-conclusion { bottom: 100px; }
+}
+
+@media (min-width: 1600px) {
+  .hero-routing {
+    top: clamp(300px, 40vh, 580px); right: auto; left: 52%;
+    width: clamp(560px, 36vw, 820px);
+  }
+}
+
+@media (min-width: 1600px) and (max-height: 950px) {
+  .hero-title-block { padding-top: 40px; }
+  .hero-routing { top: 220px; width: min(600px, 32vw); }
 }
 
 @media (max-width: 1180px) {

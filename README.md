@@ -8,7 +8,7 @@ quality/speed/state evidence, and the complete execution path from tokenization 
 
 ## Visual system
 
-Version 0.3.8 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
+Version 0.3.9 is a **Selective State Observatory**, not a product-dashboard template. Its scientific-cover hero,
 fixed specimen rail, irregular ratio atlas, clipped inference console, cobalt evidence field, acid execution map,
 and publication plots deliberately change composition from section to section.
 
@@ -38,6 +38,9 @@ and publication plots deliberately change composition from section to section.
   without perpetual signals, and compact layouts omit the instrument to preserve reading flow.
 - The 0.3.8 integration pass enlarges that instrument into the full middle field and strengthens its route,
   topology, and readout hierarchy while enforcing measured clearance from the question, selector, and result.
+- The 0.3.9 responsive pass replaces one universal diagram anchor with three intentional compositions: compact
+  omission, an aligned laptop/desktop result column, and a bounded wide-screen center track. A twelve-viewport
+  Chromium matrix protects hero fit, clearances, alignment, and horizontal overflow.
 
 ## Evidence shown
 
