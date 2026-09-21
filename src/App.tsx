@@ -4,7 +4,7 @@ import { links, ratioEvidence, stateCurves, type Ratio } from './data/evidence'
 
 const source = 'https://github.com/Karan-Anchan/mamba-hybrid-lm/blob/8e836ba93eb790988c37147f474b679443276f53/'
 const contexts = [32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
-const lineColors: Record<Ratio, string> = { '1:3': '#8d473d', '1:7': '#4a697c', '1:15': '#47715c' }
+const lineColors: Record<Ratio, string> = { '1:3': 'var(--ratio-13)', '1:7': 'var(--ratio-17)', '1:15': 'var(--ratio-115)' }
 
 function StateFigure() {
   const x = (context: number) => 50 + ((Math.log2(context) - 5) / 8) * 650

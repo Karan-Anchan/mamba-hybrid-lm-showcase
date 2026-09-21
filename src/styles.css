@@ -12,6 +12,10 @@
   --line: #d8d9d2;
   --accent: #255b52;
   --accent-soft: #edf4f0;
+  --ratio-13: #8d473d;
+  --ratio-17: #4a697c;
+  --ratio-115: #47715c;
+  --caution: #795c32;
   --mono: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
   --serif: 'Newsreader Variable', 'Newsreader', Georgia, serif;
 }
@@ -43,12 +47,22 @@ a:hover { color: #163f39; }
 .site-footer { width: min(100% - 48px, 1040px); margin-inline: auto; }
 
 .site-header {
+  position: relative;
   min-height: 66px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
   border-bottom: 1px solid var(--line);
+}
+.site-header::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ratio-13), var(--ratio-17) 50%, var(--ratio-115));
+  content: '';
 }
 .site-header a { text-decoration: none; }
 .site-header > a:first-child,
@@ -65,7 +79,7 @@ a:hover { color: #163f39; }
 .header-source { white-space: nowrap; font-size: 12px; font-weight: 600; }
 
 .site-main { padding-bottom: 42px; }
-.hero { padding: 42px 0 34px; border-bottom: 1px solid var(--line); }
+.hero { padding: 42px 0 34px; border-bottom: 1px solid var(--line); background: linear-gradient(130deg, rgba(141, 71, 61, .035), rgba(74, 105, 124, .045) 52%, rgba(71, 113, 92, .025) 82%, transparent); }
 .eyebrow {
   display: block;
   color: var(--accent);
@@ -95,6 +109,12 @@ a:hover { color: #163f39; }
   background: var(--line);
 }
 .summary-grid > * { min-width: 0; padding: 16px 18px; background: var(--surface); }
+.summary-grid > :nth-child(1) { border-top: 2px solid var(--ratio-13); background: #fffaf7; }
+.summary-grid > :nth-child(2) { border-top: 2px solid var(--ratio-115); background: #f8fcf9; }
+.summary-grid > :nth-child(3) { border-top: 2px solid var(--caution); background: #fffcf6; }
+.summary-grid > :nth-child(1) strong { color: var(--ratio-13); }
+.summary-grid > :nth-child(2) strong { color: var(--ratio-115); }
+.summary-grid > :nth-child(3) strong { color: var(--caution); }
 .summary-grid dt,
 .summary-grid > div > span,
 .result-callout > span:first-child {
@@ -116,6 +136,10 @@ a:hover { color: #163f39; }
 .section-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 20px; }
 .section-head .eyebrow { min-width: 92px; }
 .section-head p.eyebrow { margin: 0; }
+#results .eyebrow { color: var(--ratio-13); }
+#method .eyebrow { color: var(--ratio-17); }
+#challenges .eyebrow { color: var(--caution); }
+#demo .eyebrow { color: var(--ratio-115); }
 .section h2 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.35rem); line-height: 1.12; }
 .section h3 { margin: 0 0 7px; font-size: 15px; letter-spacing: -.01em; }
 .section p { margin: 0 0 13px; line-height: 1.6; }
@@ -144,12 +168,19 @@ a:hover { color: #163f39; }
 .results-table tbody th { font-weight: 650; }
 .results-table tbody th small { display: block; color: var(--muted); font-weight: 400; }
 .results-table tbody td { font-family: var(--mono); font-size: 12px; }
+.results-table tbody th::before { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 2px; vertical-align: 1px; content: ''; }
+.results-table tbody tr:nth-child(1) th { color: var(--ratio-13); }
+.results-table tbody tr:nth-child(1) th::before { background: var(--ratio-13); }
+.results-table tbody tr:nth-child(2) th { color: var(--ratio-17); }
+.results-table tbody tr:nth-child(2) th::before { background: var(--ratio-17); }
+.results-table tbody tr:nth-child(3) th { color: var(--ratio-115); }
+.results-table tbody tr:nth-child(3) th::before { background: var(--ratio-115); }
 .results-table .best,
 .results-table strong { color: var(--accent); font-weight: 700; }
 .metric-note,
 .evidence-note { color: var(--muted); font-size: 12px; line-height: 1.55; }
 .metric-note { margin-top: 10px !important; }
-.evidence-note { padding: 13px 16px; border: 1px solid var(--line); background: var(--surface); }
+.evidence-note { padding: 13px 16px; border: 1px solid var(--line); border-left: 3px solid var(--caution); background: linear-gradient(90deg, #fbf5e9, var(--surface) 72%); }
 
 .analysis-grid,
 .method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
