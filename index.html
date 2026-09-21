@@ -3,20 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#05050a" />
-    <meta name="description" content="A fixed-compute observatory for a 52M-parameter Mamba-2 and causal-attention hybrid language-model study." />
+    <meta name="theme-color" content="#f8f7f3" />
+    <meta name="description" content="Research summary of a controlled Mamba-2 and causal-attention language-model comparison: methods, measured results, limitations, and source evidence." />
     <link rel="icon" type="image/png" href="%BASE_URL%assets/project-emblem.png?v=2" />
-    <script>
-      try {
-        const storedTheme = localStorage.getItem('mamba-showcase-theme')
-        const theme = storedTheme === 'dark' || storedTheme === 'light'
-          ? storedTheme
-          : (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
-        document.documentElement.dataset.theme = theme
-        document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#05050a' : '#f2efe4'
-      } catch { /* I apply the theme again after startup. */ }
-    </script>
-    <title>Mamba Hybrid LM · Selective State Observatory</title>
+    <title>Mamba–Attention Hybrid LM | Research Summary</title>
   </head>
   <body>
     <div id="root"></div>
