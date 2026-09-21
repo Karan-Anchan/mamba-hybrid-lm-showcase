@@ -131,6 +131,7 @@ a:hover { color: #163f39; }
 }
 .result-callout p { margin-bottom: 0; }
 .table-wrap { width: 100%; overflow-x: auto; }
+.mobile-table-hint { display: none; }
 .results-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
 .results-table caption { margin-bottom: 8px; color: var(--muted); font-size: 12px; text-align: left; }
 .results-table th,
@@ -273,6 +274,7 @@ a:hover { color: #163f39; }
   .section { padding: 31px 0; }
   .section-head { display: block; }
   .section-head .eyebrow { margin-bottom: 8px; }
+  .mobile-table-hint { display: block; margin-bottom: 4px !important; color: var(--muted); font-size: 11px; }
   .analysis-grid, .method-grid, .challenge-list, .generation-grid { grid-template-columns: 1fr; }
   .analysis-grid { gap: 5px; }
   .state-figure { margin-top: 10px; }
