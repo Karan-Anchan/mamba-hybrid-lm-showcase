@@ -44,11 +44,11 @@ test('explains implementation, tools, and source-backed challenges', () => {
   )
 })
 
-test('preserves honest recorded replay inside an optional disclosure', async () => {
+test('keeps recorded replay visible and clearly labeled', async () => {
   const user = userEvent.setup()
   render(<App />)
-  await user.click(screen.getByText('Open generation instrument'))
-  expect(await screen.findByText('Recorded evidence mode')).toBeInTheDocument()
+  expect(await screen.findByText('Recorded evidence mode')).toBeVisible()
+  expect(screen.getByRole('button', { name: /Replay measured run/i })).toBeVisible()
   await user.click(screen.getByRole('button', { name: /Replay measured run/i }))
   expect(await screen.findByText(/state-space layers are more or less the same/i, {}, { timeout: 10_000 })).toBeInTheDocument()
   await waitFor(() => expect(screen.getByText('51.14', { exact: false })).toBeInTheDocument(), { timeout: 10_000 })
@@ -58,7 +58,6 @@ test('preserves honest recorded replay inside an optional disclosure', async () 
 test('does not replay unmeasured custom text', async () => {
   const user = userEvent.setup()
   render(<App />)
-  await user.click(screen.getByText('Open generation instrument'))
   await screen.findByText('Recorded evidence mode')
   const prompt = screen.getByLabelText(/Prompt API limit/i)
   await user.clear(prompt)

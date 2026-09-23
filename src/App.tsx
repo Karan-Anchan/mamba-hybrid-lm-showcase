@@ -156,8 +156,8 @@ function App() {
 
         <section className="section" id="demo" aria-labelledby="demo-title">
           <div className="section-head"><p className="eyebrow">04 / Inspect a run</p><h2 id="demo-title">Recorded output, clearly labeled</h2></div>
-          <p className="section-intro">The public site defaults to recorded evidence. Open the instrument to inspect one of nine saved completions; if a compatible model API is configured and healthy, it can stream live tokens. Recorded text is never presented as a fresh response.</p>
-          <details className="demo-details"><summary>Open generation instrument</summary><GenerationLab ratio={ratio} onRatioChange={setRatio} /></details>
+          <p className="section-intro">The public site defaults to recorded evidence. Inspect one of nine saved completions below; if a compatible model API is configured and healthy, it can stream live tokens. Recorded text is never presented as a fresh response.</p>
+          <div className="demo-panel"><GenerationLab ratio={ratio} onRatioChange={setRatio} /></div>
         </section>
 
         <section className="section source-section" id="sources" aria-labelledby="sources-title">

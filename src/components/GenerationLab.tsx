@@ -153,7 +153,7 @@ export function GenerationLab({ ratio, onRatioChange }: {
       <div className="generation-heading">
         <div>
           <span className="section-kicker"><PaperPlaneTilt size={17} weight="fill" /> Inference console</span>
-          <h2>Run the checkpoint, or inspect a measured replay.</h2>
+          <h3>Run the checkpoint, or inspect a measured replay.</h3>
           <p>The interface never passes recorded text off as a live model response.</p>
         </div>
         <div className={`service-status ${status.className}`}>

@@ -230,15 +230,12 @@ a:hover { color: #163f39; }
 .source-links > a:hover { border-bottom-color: var(--accent); }
 .compact-source { font-size: 12px; color: var(--muted); }
 
-.demo-details { margin-top: 18px; border: 1px solid var(--line); background: var(--surface); }
-.demo-details > summary { padding: 13px 16px; color: var(--accent); font-size: 13px; font-weight: 650; cursor: pointer; }
-.demo-details[open] > summary { border-bottom: 1px solid var(--line); }
-.demo-details > :not(summary) { margin: 18px; }
+.demo-panel { margin-top: 18px; padding: 18px; border: 1px solid var(--line); background: var(--surface); }
 
-/* The optional demo preserves its live/recorded behavior but stays subordinate to the results. */
+/* The recorded/live distinction remains visible alongside the generation controls. */
 .generation-shell { color: var(--ink); }
 .generation-heading { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
-.generation-heading h2 { margin: 4px 0 5px; font: 500 1.4rem/1.15 var(--serif); }
+.generation-heading h3 { margin: 4px 0 5px; font: 500 1.4rem/1.15 var(--serif); }
 .generation-heading p { margin: 0; color: var(--muted); font-size: 12px; }
 .section-kicker { color: var(--accent); font: 600 10px/1.4 var(--mono); text-transform: uppercase; }
 .section-kicker svg { display: none; }
@@ -281,7 +278,7 @@ a:hover { color: #163f39; }
 .output-copy { min-height: 140px; max-height: 280px; overflow: auto; margin: 11px 0; padding: 10px; border: 1px solid var(--line); background: #fbfaf6; font-size: 12px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
 .prompt-copy { color: var(--muted); }
 .completion-copy { color: var(--ink); }
-.output-placeholder { color: #8a8e86; }
+.output-placeholder { display: block; margin-top: 10px; color: #8a8e86; }
 .metric-rack { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 .metric-rack > div { padding: 6px; border: 1px solid var(--line); }
 .metric-rack svg { display: none; }
@@ -312,7 +309,7 @@ a:hover { color: #163f39; }
   .tool-list { grid-template-columns: 1fr; gap: 4px; }
   .generation-heading { flex-direction: column; }
   .service-status { width: 100%; }
-  .demo-details > :not(summary) { margin: 12px; }
+  .demo-panel { padding: 12px; }
 }
 
 @media (max-width: 450px) {
