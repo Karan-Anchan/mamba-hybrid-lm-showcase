@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Instrument Sans Variable', 'Instrument Sans', sans-serif;
+  font-family: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
   color: #252722;
   background: #f8f7f3;
   font-synthesis: none;
@@ -16,8 +16,8 @@
   --ratio-17: #4a697c;
   --ratio-115: #47715c;
   --caution: #795c32;
-  --mono: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
-  --serif: 'Newsreader Variable', 'Newsreader', Georgia, serif;
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
 }
 
 * { box-sizing: border-box; }

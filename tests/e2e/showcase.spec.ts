@@ -11,6 +11,13 @@ test('desktop reader reaches evidence and an already visible demo', async ({ pag
   await expect(page.getByRole('button', { name: /Replay measured run/i })).toBeVisible()
   await expect(page.locator('.demo-details')).toHaveCount(0)
   await expect(page.locator('.hero-atmosphere,.hero-scan,.hero-probe,.reading-progress')).toHaveCount(0)
+  expect(await page.locator('body').evaluate((element) => getComputedStyle(element).fontFamily)).toContain('IBM Plex Serif')
+  expect(await page.locator('h1').evaluate((element) => getComputedStyle(element).fontFamily)).toContain('IBM Plex Serif')
+  expect(await page.locator('.eyebrow').first().evaluate((element) => getComputedStyle(element).fontFamily)).toContain('IBM Plex Mono')
+  expect(await page.evaluate(async () => {
+    await document.fonts.ready
+    return Array.from(document.fonts).some((face) => face.family === 'IBM Plex Serif' && face.status === 'loaded')
+  })).toBe(true)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
 
