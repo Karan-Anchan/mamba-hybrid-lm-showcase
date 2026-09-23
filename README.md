@@ -1,6 +1,6 @@
 # Mamba–Transformer Hybrid LM: experiment showcase
 
-[Open the single-page showcase](https://karan-anchan.github.io/mamba-hybrid-lm-showcase/) · [Model and experiment code](https://github.com/Karan-Anchan/mamba-hybrid-lm) · [Detailed technical reference](https://karan-anchan.github.io/mamba-hybrid-lm-explained/)
+[Open the single-page showcase](https://karan-anchan.github.io/mamba-hybrid-lm-showcase/) · [Model and experiment code](https://github.com/Karan-Anchan/mamba-hybrid-lm)
 
 This page is a compact, recruiter-facing account of one small language-model ablation. It leads with the measured result, then shows the protocol, implementation, limitations, and source artifacts. It is not a general claim that Mamba or attention is faster in every implementation.
 
