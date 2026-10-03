@@ -25,18 +25,46 @@ test('replay remains explicitly recorded and refuses an unmeasured prompt', asyn
   await page.goto('/')
   await expect(page.getByText('Recorded evidence mode')).toBeVisible()
   await page.getByRole('button', { name: /Replay measured run/i }).click()
+  await page.getByRole('button', { name: 'Show 1:15 layer placement' }).click()
+  await expect(page.getByRole('group', { name: 'Attention : SSM ratio' }).getByRole('button', { name: /1:3/ })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.getByText(/state-space layers are more or less the same/i)).toBeVisible({ timeout: 10_000 })
+  await expect(page.getByRole('button', { name: /Replay measured run/i })).toBeEnabled()
+  await page.getByRole('button', { name: 'Show 1:7 layer placement' }).click()
+  await expect(page.locator('.output-toolbar')).toContainText('1:3')
+  await expect(page.locator('.completion-copy')).toContainText('state-space layers are more or less the same')
   await expect(page.getByText(/Measured at clean commit d6a4613/)).toBeVisible()
   const prompt = page.getByLabel(/Prompt API limit/i)
   await prompt.fill('This was not one of the measured prompts')
   await expect(page.getByRole('button', { name: /Replay measured run/i })).toBeDisabled()
 })
 
-test('compact page fits phones, tablets, and desktops without horizontal overflow', async ({ page }) => {
+test('compact page preserves readable geometry across twelve viewports', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
-  for (const width of [360, 390, 768, 1280, 1920]) {
-    await page.setViewportSize({ width, height: 850 })
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `overflow at ${width}px`).toBe(true)
+  for (const [width, height] of [[320, 740], [360, 800], [390, 844], [412, 915], [768, 1024], [1024, 768], [1280, 720], [1366, 768], [1440, 900], [1600, 900], [1920, 1080], [2560, 720]]) {
+    await page.setViewportSize({ width, height })
+    const geometry = await page.evaluate(() => {
+      const main = document.querySelector('main')!.getBoundingClientRect()
+      const heading = document.querySelector('h1')!.getBoundingClientRect()
+      const range = document.createRange()
+      range.selectNodeContents(document.querySelector('h1')!)
+      const ink = range.getBoundingClientRect()
+      return { overflow: document.documentElement.scrollWidth > innerWidth,
+        left: main.left, right: innerWidth - main.right, fontSize: parseFloat(getComputedStyle(document.querySelector('h1')!).fontSize),
+        textFits: ink.left >= heading.left - 1 && ink.right <= heading.right + 1 && ink.height <= heading.height + 3 }
+    })
+    expect(geometry.overflow, `overflow at ${width}px`).toBe(false)
+    expect(Math.abs(geometry.left - geometry.right), `centered frame at ${width}px`).toBeLessThan(2)
+    expect(geometry.left).toBeGreaterThanOrEqual(15)
+    expect(geometry.fontSize).toBeGreaterThanOrEqual(32)
+    expect(geometry.textFits, `readable heading at ${width}px`).toBe(true)
     await expect(page.getByRole('heading', { name: 'The measured trade-off' })).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Page sections' }).getByRole('link', { name: 'Method' })).toBeVisible()
+    await page.getByRole('button', { name: 'Show 1:15 layer placement' }).click()
+    await expect(page.getByRole('list', { name: '1:15 sixteen-layer pattern' }).locator('.attention')).toHaveCount(1)
+    if (width === 390 || width === 1440) {
+      await page.locator('h1').scrollIntoViewIfNeeded()
+      await page.screenshot({ path: testInfo.outputPath(`minimal-showcase-${width}.png`) })
+    }
   }
 })

@@ -55,15 +55,6 @@ a:hover { color: #163f39; }
   gap: 24px;
   border-bottom: 1px solid var(--line);
 }
-.site-header::after {
-  position: absolute;
-  right: 0;
-  bottom: -1px;
-  left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--ratio-13), var(--ratio-17) 50%, var(--ratio-115));
-  content: '';
-}
 .site-header a { text-decoration: none; }
 .site-header > a:first-child,
 .site-header .brand {
@@ -79,7 +70,7 @@ a:hover { color: #163f39; }
 .header-source { white-space: nowrap; font-size: 12px; font-weight: 600; }
 
 .site-main { padding-bottom: 42px; }
-.hero { padding: 42px 0 34px; border-bottom: 1px solid var(--line); background: linear-gradient(130deg, rgba(141, 71, 61, .035), rgba(74, 105, 124, .045) 52%, rgba(71, 113, 92, .025) 82%, transparent); }
+.hero { padding: 42px 0 34px; border-bottom: 1px solid var(--line); }
 .eyebrow {
   display: block;
   color: var(--accent);
@@ -94,7 +85,7 @@ a:hover { color: #163f39; }
   letter-spacing: -.045em;
   color: var(--ink);
 }
-.hero h1 { max-width: 920px; margin: 10px 0 12px; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.04; }
+.hero h1 { max-width: 920px; margin: 10px 0 12px; padding-block: .16em; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.16; }
 .hero p { max-width: 790px; margin: 0; color: var(--muted); font-size: clamp(1rem, 1.7vw, 1.17rem); line-height: 1.57; }
 .hero p + p { margin-top: 14px; }
 .hero a { font-weight: 600; }
@@ -180,7 +171,7 @@ a:hover { color: #163f39; }
 .metric-note,
 .evidence-note { color: var(--muted); font-size: 12px; line-height: 1.55; }
 .metric-note { margin-top: 10px !important; }
-.evidence-note { padding: 13px 16px; border: 1px solid var(--line); border-left: 3px solid var(--caution); background: linear-gradient(90deg, #fbf5e9, var(--surface) 72%); }
+.evidence-note { padding: 13px 16px; border: 1px solid var(--line); border-left: 3px solid var(--caution); background: var(--surface); }
 
 .analysis-grid,
 .method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
@@ -289,6 +280,21 @@ a:hover { color: #163f39; }
 .generation-error { margin: 7px 0; padding: 7px; border: 1px solid #bc8e82; color: #834c3e; font-size: 12px; }
 .cursor { display: inline-block; width: 5px; height: 1em; margin-left: 2px; background: var(--ink); vertical-align: middle; }
 
+.layer-instrument { border-block: 1px solid var(--line); padding: 18px 0; margin-top: 18px; }
+.instrument-head { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+.instrument-head p { color: var(--muted); font-size: 12px; }
+.architecture-ratios { display: flex; gap: 6px; }
+.architecture-ratios button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 8px 10px; font: 500 12px var(--mono); min-height: 38px; }
+.architecture-ratios button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.layer-strip { list-style: none; padding: 0 !important; margin: 14px 0 !important; display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 5px; }
+.layer-node { border: 1px solid currentColor; padding: 7px 0; text-align: center; margin: 0 !important; color: var(--ratio-115); }
+.layer-node.attention { color: var(--ratio-17); }
+.layer-node span { display: block; font: 400 10px var(--mono); }
+.layer-node abbr { display: block; font: 600 13px var(--mono); text-decoration: none; margin-top: 3px; }
+.instrument-readout { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--muted); font-size: 12px; }
+.instrument-readout strong { color: var(--ink); font-weight: 600; }
+.instrument-explanation { color: var(--muted); font-size: 12px; margin-top: 10px !important; }
+
 .site-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; padding: 20px 0 32px; color: var(--muted); font-size: 11px; }
 .site-footer p { margin: 0; }
 
@@ -310,6 +316,8 @@ a:hover { color: #163f39; }
   .generation-heading { flex-direction: column; }
   .service-status { width: 100%; }
   .demo-panel { padding: 12px; }
+  .instrument-head { flex-direction: column; }
+  .layer-strip { grid-template-columns: repeat(8, minmax(0, 1fr)); }
 }
 
 @media (max-width: 450px) {

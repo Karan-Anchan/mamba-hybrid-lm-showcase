@@ -4,6 +4,8 @@
 
 This page is a compact, recruiter-facing account of one small language-model ablation. It leads with the measured result, then shows the protocol, implementation, limitations, and source artifacts. It is not a general claim that Mamba or attention is faster in every implementation.
 
+The interface follows a minimal research layout with locally bundled IBM Plex typography, flat reading surfaces and restrained colors for the three ratios. An interactive sixteen-layer map explains the architecture without claiming live telemetry. The unused phase-portrait component and decorative gradients have been removed; the source-backed state figure and clearly labeled generation replay remain. Browser checks cover twelve phone, tablet and desktop viewports.
+
 ## Question and method
 
 At the same **sampled-token budget**, how does changing the attention-to-Mamba-2 layer ratio affect validation perplexity, generation speed, and inference-state memory?

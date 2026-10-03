@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { GenerationLab } from './components/GenerationLab'
+import { LayerInstrument } from './components/LayerInstrument'
 import { links, ratioEvidence, stateCurves, type Ratio } from './data/evidence'
 
 const source = 'https://github.com/Karan-Anchan/mamba-hybrid-lm/blob/8e836ba93eb790988c37147f474b679443276f53/'
@@ -85,6 +86,7 @@ const challenges = [
 
 function App() {
   const [ratio, setRatio] = useState<Ratio>('1:3')
+  const [architectureRatio, setArchitectureRatio] = useState<Ratio>('1:3')
 
   return (
     <>
@@ -145,6 +147,7 @@ function App() {
           <div className="method-grid">{method.map((step) => <article className="method-step" key={step.number}>
             <span>{step.number}</span><h3>{step.title}</h3><p>{step.body}</p><a href={step.href} target="_blank" rel="noreferrer">Inspect {step.code} ↗</a>
           </article>)}</div>
+          <LayerInstrument ratio={architectureRatio} onRatioChange={setArchitectureRatio} />
           <div className="tool-list"><strong>Tools used</strong><p>PyTorch (model, SDPA attention, training, recurrent inference); Hugging Face Datasets and Tokenizers (corpus/BPE); NumPy memmap (token storage); FastAPI and SSE (optional live serving); pytest (model, data, resume, inference, and API tests); React, TypeScript, Vite, and GitHub Pages (this showcase).</p></div>
         </section>
 
