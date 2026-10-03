@@ -1,26 +1,29 @@
-import { layerPattern, ratioEvidence, type Ratio } from '../data/evidence'
+import { layerPattern, ratioEvidence } from '../data/evidence'
 
-export function LayerInstrument({ ratio, onRatioChange }: {
-  ratio: Ratio
-  onRatioChange: (ratio: Ratio) => void
-}) {
-  const evidence = ratioEvidence.find((item) => item.ratio === ratio)!
-  return <div className="layer-instrument" aria-label="Interactive architecture map">
+export function LayerInstrument() {
+  return <div className="layer-instrument" role="region" aria-label="All three hybrid architectures">
     <div className="instrument-head">
-      <div><h3>Keep sixteen layers. Change how often attention appears.</h3><p>Select a ratio to inspect the exact layer placement used in that run.</p></div>
-      <div className="architecture-ratios" role="group" aria-label="Architecture ratio">
-        {ratioEvidence.map((variant) => <button key={variant.ratio} type="button"
-          aria-label={`Show ${variant.ratio} layer placement`} aria-pressed={variant.ratio === ratio}
-          onClick={() => onRatioChange(variant.ratio)}>{variant.ratio}</button>)}
-      </div>
+      <h3>Sixteen layers in each model. Attention becomes less frequent.</h3>
+      <p>Read all three trained architectures together, from layer 1 to layer 16.</p>
     </div>
-    <ol className="layer-strip" aria-label={`${ratio} sixteen-layer pattern`}>
-      {layerPattern(ratio).map((kind, index) => <li className={`layer-node ${kind}`} key={index}
-        title={`Layer ${index + 1}: ${kind === 'attention' ? 'causal attention' : 'Mamba-2'}`}>
-        <span>{index + 1}</span><abbr title={kind === 'attention' ? 'Causal attention' : 'Mamba-2 state-space layer'}>{kind === 'attention' ? 'A' : 'M'}</abbr>
-      </li>)}
-    </ol>
-    <div className="instrument-readout" aria-live="polite"><strong>{evidence.attentionLayers} attention / {evidence.mambaLayers} Mamba-2</strong><span>{(evidence.parameters / 1e6).toFixed(2)}M parameters</span></div>
-    <p className="instrument-explanation"><b>A — attention</b> keeps growing records of earlier text. <b>M — Mamba-2</b> updates a compact memory. The map shows the architecture, not live model activity. The measured result table reports the trade-off.</p>
+    <p className="layer-legend"><span><b className="layer-key attention">A</b> Attention · filled marker</span><span><b className="layer-key mamba">M</b> Mamba-2 · outlined marker</span></p>
+    <div className="architecture-comparison">{ratioEvidence.map((variant) => {
+      const pattern = layerPattern(variant.ratio)
+      const attentionPositions = pattern.flatMap((kind, index) => kind === 'attention' ? [index + 1] : [])
+      return <article className="architecture-row" key={variant.ratio} aria-label={`${variant.ratio} hybrid architecture`}>
+        <div className="architecture-label"><h4>{variant.ratio}</h4><p>{variant.attentionLayers} attention / {variant.mambaLayers} Mamba-2</p><small>{(variant.parameters / 1e6).toFixed(2)}M parameters</small></div>
+        <div className="architecture-pattern">
+          <ol className="layer-strip" aria-label={`${variant.ratio} sixteen-layer pattern`}>
+            {pattern.map((kind, index) => <li className={`layer-node ${kind}`} key={index}
+              aria-label={`Layer ${index + 1}: ${kind === 'attention' ? 'causal attention' : 'Mamba-2'}`}>
+              <span>{index + 1}</span><abbr title={kind === 'attention' ? 'Causal attention' : 'Mamba-2 state-space layer'}>{kind === 'attention' ? 'A' : 'M'}</abbr>
+            </li>)}
+          </ol>
+          <p className="attention-positions"><b>Attention at {attentionPositions.length === 1 ? 'layer' : 'layers'} {attentionPositions.join(', ')}.</b> All other layers use Mamba-2.</p>
+        </div>
+      </article>
+    })}</div>
+    <p className="instrument-explanation"><b>Attention</b> keeps growing records of earlier text. <b>Mamba-2</b> updates a compact memory. These diagrams show architecture, not live model activity.</p>
+    <p className="baseline-note">Attention-only and Mamba-only configurations are controls for future training comparisons. Their trained quality and speed results are not yet available.</p>
   </div>
 }

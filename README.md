@@ -6,6 +6,8 @@ This page is a compact, recruiter-facing account of one small language-model abl
 
 The interface follows a minimal research layout with locally bundled IBM Plex typography, flat reading surfaces and restrained colors for the three ratios. An interactive sixteen-layer map explains the architecture without claiming live telemetry. The unused phase-portrait component and decorative gradients have been removed; the source-backed state figure and clearly labeled generation replay remain. Browser checks cover twelve phone, tablet and desktop viewports.
 
+All three architecture patterns now appear together. Filled attention markers and written layer positions identify the attention blocks without depending on color. The recorded comparison immediately shows all three saved responses and per-sample metrics for a common P1–P3 prompt. Its controls are independent of optional live/replay generation. Pure-attention and pure-Mamba configurations are baseline controls awaiting measured language-quality results.
+
 ## Question and method
 
 At the same **sampled-token budget**, how does changing the attention-to-Mamba-2 layer ratio affect validation perplexity, generation speed, and inference-state memory?

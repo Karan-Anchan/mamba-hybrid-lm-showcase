@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { GenerationLab } from './components/GenerationLab'
 import { LayerInstrument } from './components/LayerInstrument'
+import { RecordedComparison } from './components/RecordedComparison'
 import { links, ratioEvidence, stateCurves, type Ratio } from './data/evidence'
 
 const source = 'https://github.com/Karan-Anchan/mamba-hybrid-lm/blob/8e836ba93eb790988c37147f474b679443276f53/'
@@ -86,7 +87,6 @@ const challenges = [
 
 function App() {
   const [ratio, setRatio] = useState<Ratio>('1:3')
-  const [architectureRatio, setArchitectureRatio] = useState<Ratio>('1:3')
 
   return (
     <>
@@ -147,7 +147,7 @@ function App() {
           <div className="method-grid">{method.map((step) => <article className="method-step" key={step.number}>
             <span>{step.number}</span><h3>{step.title}</h3><p>{step.body}</p><a href={step.href} target="_blank" rel="noreferrer">Inspect {step.code} ↗</a>
           </article>)}</div>
-          <LayerInstrument ratio={architectureRatio} onRatioChange={setArchitectureRatio} />
+          <LayerInstrument />
           <div className="tool-list"><strong>Tools used</strong><p>PyTorch (model, SDPA attention, training, recurrent inference); Hugging Face Datasets and Tokenizers (corpus/BPE); NumPy memmap (token storage); FastAPI and SSE (optional live serving); pytest (model, data, resume, inference, and API tests); React, TypeScript, Vite, and GitHub Pages (this showcase).</p></div>
         </section>
 
@@ -158,9 +158,10 @@ function App() {
         </section>
 
         <section className="section" id="demo" aria-labelledby="demo-title">
-          <div className="section-head"><p className="eyebrow">04 / Inspect a run</p><h2 id="demo-title">Recorded output, clearly labeled</h2></div>
-          <p className="section-intro">The public site defaults to recorded evidence. Inspect one of nine saved completions below; if a compatible model API is configured and healthy, it can stream live tokens. Recorded text is never presented as a fresh response.</p>
-          <div className="demo-panel"><GenerationLab ratio={ratio} onRatioChange={setRatio} /></div>
+          <div className="section-head"><p className="eyebrow">04 / Compare outputs</p><h2 id="demo-title">Three models, the same prompt</h2></div>
+          <p className="section-intro">Compare the saved text and measurements without running each model. These are the exact recorded completions from the matched generation protocol.</p>
+          <RecordedComparison />
+          <details className="optional-generation"><summary>Optional: inspect a replay or connect to live generation</summary><p>This separate console can replay a registered sample or stream live tokens when a compatible model API is healthy. Its prompt and ratio controls are independent of the comparison above.</p><div className="demo-panel"><GenerationLab ratio={ratio} onRatioChange={setRatio} /></div></details>
         </section>
 
         <section className="section source-section" id="sources" aria-labelledby="sources-title">

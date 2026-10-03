@@ -1,7 +1,8 @@
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { expect, test } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import App from '../src/App'
+import { RecordedComparison } from '../src/components/RecordedComparison'
 
 test('leads with the question, measured results, and limitations', () => {
   render(<App />)
@@ -46,25 +47,28 @@ test('explains implementation, tools, and source-backed challenges', () => {
 
 test('keeps recorded replay visible and clearly labeled', async () => {
   const user = userEvent.setup()
-  render(<App />)
-  expect(await screen.findByText('Recorded evidence mode')).toBeVisible()
-  expect(screen.getByRole('button', { name: /Replay measured run/i })).toBeVisible()
-  await user.click(screen.getByRole('button', { name: /Replay measured run/i }))
-  await user.click(screen.getByRole('button', { name: 'Show 1:15 layer placement' }))
-  const generationRatios = screen.getByRole('group', { name: 'Attention : SSM ratio' })
+  const { container } = render(<App />)
+  await user.click(screen.getByText('Optional: inspect a replay or connect to live generation'))
+  const consoleView = within(container.querySelector<HTMLElement>('.demo-panel')!)
+  expect(await consoleView.findByText('Recorded evidence mode')).toBeVisible()
+  expect(consoleView.getByRole('button', { name: /Replay measured run/i })).toBeVisible()
+  await user.click(consoleView.getByRole('button', { name: /Replay measured run/i }))
+  await user.click(screen.getByRole('button', { name: 'Compare P2 across all models' }))
+  const generationRatios = consoleView.getByRole('group', { name: 'Attention : SSM ratio' })
   expect(within(generationRatios).getByRole('button', { name: /1:3/ })).toHaveAttribute('aria-pressed', 'true')
-  expect(await screen.findByText(/state-space layers are more or less the same/i, {}, { timeout: 10_000 })).toBeInTheDocument()
-  await waitFor(() => expect(screen.getByText('51.14', { exact: false })).toBeInTheDocument(), { timeout: 10_000 })
-  await user.click(screen.getByRole('button', { name: 'Show 1:7 layer placement' }))
-  expect(screen.getByText(/state-space layers are more or less the same/i)).toBeInTheDocument()
-  expect(screen.getByText('51.14', { exact: false })).toBeInTheDocument()
-  expect(screen.getByText(/^1:3 .* params$/)).toBeInTheDocument()
-  expect(screen.getByText(/Measured at clean commit d6a4613/)).toBeInTheDocument()
+  expect(await consoleView.findByText(/state-space layers are more or less the same/i, {}, { timeout: 10_000 })).toBeInTheDocument()
+  await waitFor(() => expect(consoleView.getByText('51.14', { exact: false })).toBeInTheDocument(), { timeout: 10_000 })
+  await user.click(screen.getByRole('button', { name: 'Compare P3 across all models' }))
+  expect(consoleView.getByText(/state-space layers are more or less the same/i)).toBeInTheDocument()
+  expect(consoleView.getByText('51.14', { exact: false })).toBeInTheDocument()
+  expect(consoleView.getByText(/^1:3 .* params$/)).toBeInTheDocument()
+  expect(consoleView.getByText(/Measured at clean commit d6a4613/)).toBeInTheDocument()
 }, 15_000)
 
 test('does not replay unmeasured custom text', async () => {
   const user = userEvent.setup()
   render(<App />)
+  await user.click(screen.getByText('Optional: inspect a replay or connect to live generation'))
   await screen.findByText('Recorded evidence mode')
   const prompt = screen.getByLabelText(/Prompt API limit/i)
   await user.clear(prompt)
@@ -73,14 +77,48 @@ test('does not replay unmeasured custom text', async () => {
   expect(screen.getByText('Choose P1–P3 to replay evidence')).toBeInTheDocument()
 })
 
-test('changes exact architecture placement without turning the illustration into a measurement', async () => {
-  const user = userEvent.setup()
+test('shows all exact layer placements with attention counts and written positions', () => {
   render(<App />)
-  await user.click(screen.getByRole('button', { name: 'Show 1:15 layer placement' }))
-  const pattern = screen.getByRole('list', { name: '1:15 sixteen-layer pattern' })
-  expect(within(pattern).getAllByRole('listitem')).toHaveLength(16)
-  expect(pattern.querySelectorAll('.attention')).toHaveLength(1)
-  expect(within(pattern).getAllByText('M')).toHaveLength(15)
-  expect(screen.getByText('1 attention / 15 Mamba-2')).toBeInTheDocument()
+  const architectures = screen.getByRole('region', { name: 'All three hybrid architectures' })
+  for (const [ratio, positions] of [['1:3', [4, 8, 12, 16]], ['1:7', [8, 16]], ['1:15', [16]]] as const) {
+    const pattern = within(architectures).getByRole('list', { name: `${ratio} sixteen-layer pattern` })
+    expect(within(pattern).getAllByRole('listitem')).toHaveLength(16)
+    expect([...pattern.querySelectorAll('.attention')].map((layer) => layer.getAttribute('aria-label')))
+      .toEqual(positions.map((position) => `Layer ${position}: causal attention`))
+    expect(within(pattern).getAllByText('M')).toHaveLength(16 - positions.length)
+  }
+  expect(within(architectures).getByText('Attention at layers 4, 8, 12, 16.')).toBeVisible()
+  expect(within(architectures).getByText('Attention at layers 8, 16.')).toBeVisible()
+  expect(within(architectures).getByText('Attention at layer 16.')).toBeVisible()
   expect(screen.getByText(/not live model activity/)).toBeInTheDocument()
+  expect(within(architectures).getByText(/controls for future training comparisons/)).toBeInTheDocument()
 })
+
+test('compares all saved outputs immediately under one prompt without any API calls', async () => {
+  const fetchSpy = vi.spyOn(globalThis, 'fetch')
+  const user = userEvent.setup()
+  try {
+    render(<RecordedComparison />)
+    const comparison = screen.getByRole('region', { name: 'One prompt. Three recorded completions.' })
+    expect(within(comparison).getAllByRole('article')).toHaveLength(3)
+    expect(within(comparison).getByText(/state-space layers are more or less the same/)).toBeVisible()
+    expect(within(comparison).getByText(/the fact that the state is not simply a state/)).toBeVisible()
+    expect(within(comparison).getByText(/compare the two on the basis of their common characteristics/)).toBeVisible()
+    expect(within(comparison).getByText('51.14', { exact: false })).toBeVisible()
+    expect(within(comparison).getByText('34.26', { exact: false })).toBeVisible()
+    await user.click(within(comparison).getByRole('button', { name: 'Compare P2 across all models' }))
+    expect(within(comparison).getByText(promptsP2)).toBeVisible()
+    expect(within(comparison).getByText(/Socialized memory and data generation/)).toBeVisible()
+    expect(within(comparison).getByText(/memory-intensive memory-intensive/)).toBeVisible()
+    expect(within(comparison).getByText(/of the way the operating system works/)).toBeVisible()
+    expect(within(comparison).getByText('52.43', { exact: false })).toBeVisible()
+    expect(within(comparison).getByText('19.88', { exact: false })).toBeVisible()
+    expect(within(comparison).queryByText(/state-space layers are more or less the same/)).not.toBeInTheDocument()
+    expect(within(comparison).getByText('Recorded evidence')).toBeVisible()
+    expect(fetchSpy).not.toHaveBeenCalled()
+  } finally {
+    fetchSpy.mockRestore()
+  }
+})
+
+const promptsP2 = 'In a small language model, memory usage matters because'
