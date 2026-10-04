@@ -17,12 +17,12 @@ test('desktop reader sees all architectures and recorded outputs before opening 
   await expect(page.getByRole('button', { name: /Replay measured run/i })).toBeVisible()
   await expect(page.locator('.demo-details')).toHaveCount(0)
   await expect(page.locator('.hero-atmosphere,.hero-scan,.hero-probe,.reading-progress')).toHaveCount(0)
-  expect(await page.locator('body').evaluate((element) => getComputedStyle(element).fontFamily)).toContain('IBM Plex Serif')
-  expect(await page.locator('h1').evaluate((element) => getComputedStyle(element).fontFamily)).toContain('IBM Plex Serif')
+  expect(await page.locator('body').evaluate((element) => getComputedStyle(element).fontFamily)).toContain('Poppins')
+  expect(await page.locator('h1').evaluate((element) => getComputedStyle(element).fontFamily)).toContain('Poppins')
   expect(await page.locator('.eyebrow').first().evaluate((element) => getComputedStyle(element).fontFamily)).toContain('IBM Plex Mono')
   expect(await page.evaluate(async () => {
     await document.fonts.ready
-    return Array.from(document.fonts).some((face) => face.family === 'IBM Plex Serif' && face.status === 'loaded')
+    return Array.from(document.fonts).some((face) => face.family === 'Poppins' && face.status === 'loaded')
   })).toBe(true)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 })
@@ -68,6 +68,7 @@ test('shared prompt switches all three exact recorded samples with no generation
 test('compact page preserves readable geometry across twelve viewports', async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
+  await page.evaluate(() => document.fonts.ready)
   for (const [width, height] of [[320, 740], [360, 800], [390, 844], [412, 915], [768, 1024], [1024, 768], [1280, 720], [1366, 768], [1440, 900], [1600, 900], [1920, 1080], [2560, 720]]) {
     await page.setViewportSize({ width, height })
     const geometry = await page.evaluate(() => {
@@ -112,6 +113,7 @@ test('compact page preserves readable geometry across twelve viewports', async (
       expect(await page.locator('.skip-link').evaluate((element) => element === document.activeElement)).toBe(false)
       // Element captures can include offscreen fixed content when the capture exceeds the viewport.
       const style = '.skip-link { visibility: hidden; }'
+      await page.locator('.hero').screenshot({ path: testInfo.outputPath(`hero-${width}.png`), style })
       await page.locator('.layer-instrument').screenshot({ path: testInfo.outputPath(`architectures-${width}.png`), style })
       await page.locator('.recorded-comparison').screenshot({ path: testInfo.outputPath(`recorded-comparison-${width}.png`), style })
     }

@@ -1,5 +1,5 @@
 :root {
-  font-family: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  font-family: var(--sans);
   color: #252722;
   background: #f8f7f3;
   font-synthesis: none;
@@ -17,7 +17,7 @@
   --ratio-115: #47715c;
   --caution: #795c32;
   --mono: 'IBM Plex Mono', 'Courier New', monospace;
-  --serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  --sans: 'Poppins', 'Segoe UI', Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -80,7 +80,7 @@ a:hover { color: #163f39; }
 }
 .hero h1,
 .section h2 {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-weight: 500;
   letter-spacing: -.045em;
   color: var(--ink);

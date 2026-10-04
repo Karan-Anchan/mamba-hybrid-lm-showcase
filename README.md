@@ -43,6 +43,8 @@ GitHub Pages hosts the static site, **not** model inference. Without a reachable
 
 ## Run the page locally
 
+The showcase bundles Poppins weights 400–700 through Fontsource for headings and reading text. Technical values and code retain IBM Plex Mono. Font files ship with the site.
+
 ```bash
 npm install
 npm run dev
