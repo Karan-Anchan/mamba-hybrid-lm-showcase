@@ -1,0 +1,1105 @@
+{
+  "schema": 1,
+  "kind": "historical-recorded-retrieval-replay",
+  "source": {
+    "path": "results/week4-eval-v1/evaluation_results.json",
+    "publication_commit": "8e836ba93eb790988c37147f474b679443276f53",
+    "sha256": "12b741d651b427743cd4cd15b0ea5dec1c071342c93ad862bf14d0bff668f4b9",
+    "measured_commit": "f038b6e94e88a4acd72ee45365841e4e55a45cce",
+    "prompt_builder_sha256": "11aaa87a6533afade8f81b72f4144e30d0853d04f00a237d106a2d65ccc6b9da",
+    "tokenizer_sha256": "b64b57e552b33dab022a85f5a6b7cc78382d162b6d3c7657ed5c6f49ace6671e",
+    "completed_at": "2026-08-20T18:56:39.023106+00:00",
+    "run_id": "week4-eval-v1",
+    "runtime": {
+      "cuda_runtime": "12.8",
+      "device": "cuda",
+      "gpu": {
+        "compute_capability": [
+          12,
+          0
+        ],
+        "name": "NVIDIA GeForce RTX 5070",
+        "total_memory_bytes": 12820480000
+      },
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "torch": "2.11.0+cu128"
+    }
+  },
+  "protocol": {
+    "context_lengths": [
+      512,
+      1024,
+      2048,
+      4096,
+      8192
+    ],
+    "decode_tokens": 32,
+    "needle_decode_tokens": 8,
+    "needle_depths": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "seed": 1337,
+    "throughput_repeats": 3,
+    "validation_batch_size": 8,
+    "validation_block_size": 512,
+    "validation_iters": 50
+  },
+  "variants": [
+    {
+      "ratio": "1:3",
+      "checkpoint": {
+        "path": "checkpoints/week3-700m-v1/hybrid-1_3-76f9c3a9/best.pt",
+        "ratio": "1:3",
+        "recorded_val_loss": 3.2696218490600586,
+        "sha256": "0995d848d8538a0169151e94388660554dcf90ce93c9a5bb2fa18ae1aec0504c",
+        "step": 42000,
+        "training_signature": "c863e18d81873978947481230c26dea7f692b27977a8841e28b416d55eaa396b"
+      },
+      "matches": 3,
+      "trials": [
+        {
+          "actual_depth": 0.12348178137651822,
+          "code": "orchid",
+          "context_length": 512,
+          "exact_match": false,
+          "generated_text": " the access code.\n\nResearch",
+          "generated_token_ids": [
+            262,
+            1960,
+            2554,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 0.7250766677316278
+        },
+        {
+          "actual_depth": 0.5,
+          "code": "lantern",
+          "context_length": 512,
+          "exact_match": true,
+          "generated_text": " lantern.\n\nResearch",
+          "generated_token_ids": [
+            302,
+            273,
+            757,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "lantern",
+          "requested_depth": 0.5,
+          "target_token_nll": 0.08209395253409942
+        },
+        {
+          "actual_depth": 0.8765182186234818,
+          "code": "cobalt",
+          "context_length": 512,
+          "exact_match": true,
+          "generated_text": " cobalt.\n\nResearch",
+          "generated_token_ids": [
+            662,
+            66,
+            3092,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "cobalt",
+          "requested_depth": 0.9,
+          "target_token_nll": 0.1023199522557358
+        },
+        {
+          "actual_depth": 0.11133200795228629,
+          "code": "saffron",
+          "context_length": 1024,
+          "exact_match": false,
+          "generated_text": " not a reference to the reference.\n",
+          "generated_token_ids": [
+            407,
+            258,
+            5687,
+            284,
+            262,
+            5687,
+            14,
+            199
+          ],
+          "normalized_answer": "not",
+          "requested_depth": 0.1,
+          "target_token_nll": 3.707127424577872
+        },
+        {
+          "actual_depth": 0.5009940357852882,
+          "code": "maple",
+          "context_length": 1024,
+          "exact_match": false,
+          "generated_text": " the reference to the reference to the reference",
+          "generated_token_ids": [
+            262,
+            5687,
+            284,
+            262,
+            5687,
+            284,
+            262,
+            5687
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.5,
+          "target_token_nll": 5.052925884723663
+        },
+        {
+          "actual_depth": 0.8886679920477137,
+          "code": "quartz",
+          "context_length": 1024,
+          "exact_match": true,
+          "generated_text": " quartz.\n\nResearch",
+          "generated_token_ids": [
+            619,
+            429,
+            90,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "quartz",
+          "requested_depth": 0.9,
+          "target_token_nll": 0.4063752540387213
+        },
+        {
+          "actual_depth": 0.10541871921182266,
+          "code": "raven",
+          "context_length": 2048,
+          "exact_match": false,
+          "generated_text": " the same as the original.\n\n",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            2630,
+            14,
+            199,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 8.177379608154297
+        },
+        {
+          "actual_depth": 0.5004926108374385,
+          "code": "willow",
+          "context_length": 2048,
+          "exact_match": false,
+          "generated_text": " the same as the original.\n\n",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            2630,
+            14,
+            199,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.5,
+          "target_token_nll": 8.34188723564148
+        },
+        {
+          "actual_depth": 0.8950738916256158,
+          "code": "ember",
+          "context_length": 2048,
+          "exact_match": false,
+          "generated_text": " the same as the original.\n\n",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            2630,
+            14,
+            199,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.9,
+          "target_token_nll": 6.268336772918701
+        },
+        {
+          "actual_depth": 0.10274644433545856,
+          "code": "harbor",
+          "context_length": 4096,
+          "exact_match": false,
+          "generated_text": " the same as the original.\n\n",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            2630,
+            14,
+            199,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 7.881452798843384
+        },
+        {
+          "actual_depth": 0.5,
+          "code": "violet",
+          "context_length": 4096,
+          "exact_match": false,
+          "generated_text": " the same as the original.\n\n",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            2630,
+            14,
+            199,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.5,
+          "target_token_nll": 5.62291032075882
+        },
+        {
+          "actual_depth": 0.8972535556645415,
+          "code": "cedar",
+          "context_length": 4096,
+          "exact_match": false,
+          "generated_text": " the same as the original.\n\n",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            2630,
+            14,
+            199,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.9,
+          "target_token_nll": 6.555446624755859
+        },
+        {
+          "actual_depth": 0.10141913383900171,
+          "code": "silver",
+          "context_length": 8192,
+          "exact_match": false,
+          "generated_text": " the result of the experiment.\n\n",
+          "generated_token_ids": [
+            262,
+            1258,
+            288,
+            262,
+            4507,
+            14,
+            199,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 10.801071166992188
+        },
+        {
+          "actual_depth": 0.5,
+          "code": "falcon",
+          "context_length": 8192,
+          "exact_match": false,
+          "generated_text": " the result of the experiment.\n\n",
+          "generated_token_ids": [
+            262,
+            1258,
+            288,
+            262,
+            4507,
+            14,
+            199,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.5,
+          "target_token_nll": 5.512203534444173
+        },
+        {
+          "actual_depth": 0.8987032052850502,
+          "code": "meadow",
+          "context_length": 8192,
+          "exact_match": false,
+          "generated_text": " the result of the experiment.\n\n",
+          "generated_token_ids": [
+            262,
+            1258,
+            288,
+            262,
+            4507,
+            14,
+            199,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.9,
+          "target_token_nll": 8.91759967803955
+        }
+      ],
+      "storage": [
+        {
+          "context_length": 512,
+          "attention_kv_bytes": 3670016,
+          "mamba_conv_bytes": 82944,
+          "mamba_ssm_bytes": 5505024,
+          "logical_state_bytes": 9257984
+        },
+        {
+          "context_length": 1024,
+          "attention_kv_bytes": 7340032,
+          "mamba_conv_bytes": 82944,
+          "mamba_ssm_bytes": 5505024,
+          "logical_state_bytes": 12928000
+        },
+        {
+          "context_length": 2048,
+          "attention_kv_bytes": 14680064,
+          "mamba_conv_bytes": 82944,
+          "mamba_ssm_bytes": 5505024,
+          "logical_state_bytes": 20268032
+        },
+        {
+          "context_length": 4096,
+          "attention_kv_bytes": 29360128,
+          "mamba_conv_bytes": 82944,
+          "mamba_ssm_bytes": 5505024,
+          "logical_state_bytes": 34948096
+        },
+        {
+          "context_length": 8192,
+          "attention_kv_bytes": 58720256,
+          "mamba_conv_bytes": 82944,
+          "mamba_ssm_bytes": 5505024,
+          "logical_state_bytes": 64308224
+        }
+      ]
+    },
+    {
+      "ratio": "1:7",
+      "checkpoint": {
+        "path": "checkpoints/week3-700m-v1/hybrid-1_7-9a5e2bc8/best.pt",
+        "ratio": "1:7",
+        "recorded_val_loss": 3.2758567333221436,
+        "sha256": "e3270576bd3585268d6eec59f6f01fe6227d6e6e446d8b1b284b0b429b6346df",
+        "step": 42725,
+        "training_signature": "69fb5518f533374dcb8b61b67af229c20edb260b087d3ea2e0a4001cdb202642"
+      },
+      "matches": 3,
+      "trials": [
+        {
+          "actual_depth": 0.12348178137651822,
+          "code": "orchid",
+          "context_length": 512,
+          "exact_match": true,
+          "generated_text": " orchid.\n\nResearch",
+          "generated_token_ids": [
+            416,
+            355,
+            311,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "orchid",
+          "requested_depth": 0.1,
+          "target_token_nll": 0.32515435200184584
+        },
+        {
+          "actual_depth": 0.5,
+          "code": "lantern",
+          "context_length": 512,
+          "exact_match": true,
+          "generated_text": " lantern.\n\nResearch",
+          "generated_token_ids": [
+            302,
+            273,
+            757,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "lantern",
+          "requested_depth": 0.5,
+          "target_token_nll": 0.3726745170230667
+        },
+        {
+          "actual_depth": 0.8765182186234818,
+          "code": "cobalt",
+          "context_length": 512,
+          "exact_match": true,
+          "generated_text": " cobalt.\n\nResearch",
+          "generated_token_ids": [
+            662,
+            66,
+            3092,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "cobalt",
+          "requested_depth": 0.9,
+          "target_token_nll": 0.4036192304144303
+        },
+        {
+          "actual_depth": 0.11133200795228629,
+          "code": "saffron",
+          "context_length": 1024,
+          "exact_match": false,
+          "generated_text": ":\n\nThe access code:\n",
+          "generated_token_ids": [
+            26,
+            199,
+            199,
+            443,
+            1960,
+            2554,
+            26,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 4.801027595996857
+        },
+        {
+          "actual_depth": 0.5009940357852882,
+          "code": "maple",
+          "context_length": 1024,
+          "exact_match": false,
+          "generated_text": ":\n\nResearch note: the",
+          "generated_token_ids": [
+            26,
+            199,
+            199,
+            5759,
+            3914,
+            3663,
+            26,
+            262
+          ],
+          "normalized_answer": "research",
+          "requested_depth": 0.5,
+          "target_token_nll": 7.281722784042358
+        },
+        {
+          "actual_depth": 0.8886679920477137,
+          "code": "quartz",
+          "context_length": 1024,
+          "exact_match": false,
+          "generated_text": " a reference to the access code.\n",
+          "generated_token_ids": [
+            258,
+            5687,
+            284,
+            262,
+            1960,
+            2554,
+            14,
+            199
+          ],
+          "normalized_answer": "a",
+          "requested_depth": 0.9,
+          "target_token_nll": 1.670035909744911
+        },
+        {
+          "actual_depth": 0.10541871921182266,
+          "code": "raven",
+          "context_length": 2048,
+          "exact_match": false,
+          "generated_text": " the same as the one used in the",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            522,
+            1039,
+            287,
+            262
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 8.3424551486969
+        },
+        {
+          "actual_depth": 0.5004926108374385,
+          "code": "willow",
+          "context_length": 2048,
+          "exact_match": false,
+          "generated_text": " the same as the one used in the",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            522,
+            1039,
+            287,
+            262
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.5,
+          "target_token_nll": 6.280561566352844
+        },
+        {
+          "actual_depth": 0.8950738916256158,
+          "code": "ember",
+          "context_length": 2048,
+          "exact_match": false,
+          "generated_text": " the same as the one used in the",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            522,
+            1039,
+            287,
+            262
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.9,
+          "target_token_nll": 4.441107708960772
+        },
+        {
+          "actual_depth": 0.10274644433545856,
+          "code": "harbor",
+          "context_length": 4096,
+          "exact_match": false,
+          "generated_text": " available in the following format:\n\n",
+          "generated_token_ids": [
+            1887,
+            287,
+            262,
+            1885,
+            7424,
+            26,
+            199,
+            199
+          ],
+          "normalized_answer": "available",
+          "requested_depth": 0.1,
+          "target_token_nll": 8.719605922698975
+        },
+        {
+          "actual_depth": 0.5,
+          "code": "violet",
+          "context_length": 4096,
+          "exact_match": false,
+          "generated_text": " available in the following format:\n\n",
+          "generated_token_ids": [
+            1887,
+            287,
+            262,
+            1885,
+            7424,
+            26,
+            199,
+            199
+          ],
+          "normalized_answer": "available",
+          "requested_depth": 0.5,
+          "target_token_nll": 5.528299833337466
+        },
+        {
+          "actual_depth": 0.8972535556645415,
+          "code": "cedar",
+          "context_length": 4096,
+          "exact_match": false,
+          "generated_text": " available in the following format:\n\n",
+          "generated_token_ids": [
+            1887,
+            287,
+            262,
+            1885,
+            7424,
+            26,
+            199,
+            199
+          ],
+          "normalized_answer": "available",
+          "requested_depth": 0.9,
+          "target_token_nll": 5.551855723063151
+        },
+        {
+          "actual_depth": 0.10141913383900171,
+          "code": "silver",
+          "context_length": 8192,
+          "exact_match": false,
+          "generated_text": " available in the following format:\n\n",
+          "generated_token_ids": [
+            1887,
+            287,
+            262,
+            1885,
+            7424,
+            26,
+            199,
+            199
+          ],
+          "normalized_answer": "available",
+          "requested_depth": 0.1,
+          "target_token_nll": 13.094520568847656
+        },
+        {
+          "actual_depth": 0.5,
+          "code": "falcon",
+          "context_length": 8192,
+          "exact_match": false,
+          "generated_text": " available in the following format:\n\n",
+          "generated_token_ids": [
+            1887,
+            287,
+            262,
+            1885,
+            7424,
+            26,
+            199,
+            199
+          ],
+          "normalized_answer": "available",
+          "requested_depth": 0.5,
+          "target_token_nll": 8.01045560836792
+        },
+        {
+          "actual_depth": 0.8987032052850502,
+          "code": "meadow",
+          "context_length": 8192,
+          "exact_match": false,
+          "generated_text": " available in the following format:\n\n",
+          "generated_token_ids": [
+            1887,
+            287,
+            262,
+            1885,
+            7424,
+            26,
+            199,
+            199
+          ],
+          "normalized_answer": "available",
+          "requested_depth": 0.9,
+          "target_token_nll": 8.7833993434906
+        }
+      ],
+      "storage": [
+        {
+          "context_length": 512,
+          "attention_kv_bytes": 1835008,
+          "mamba_conv_bytes": 96768,
+          "mamba_ssm_bytes": 6422528,
+          "logical_state_bytes": 8354304
+        },
+        {
+          "context_length": 1024,
+          "attention_kv_bytes": 3670016,
+          "mamba_conv_bytes": 96768,
+          "mamba_ssm_bytes": 6422528,
+          "logical_state_bytes": 10189312
+        },
+        {
+          "context_length": 2048,
+          "attention_kv_bytes": 7340032,
+          "mamba_conv_bytes": 96768,
+          "mamba_ssm_bytes": 6422528,
+          "logical_state_bytes": 13859328
+        },
+        {
+          "context_length": 4096,
+          "attention_kv_bytes": 14680064,
+          "mamba_conv_bytes": 96768,
+          "mamba_ssm_bytes": 6422528,
+          "logical_state_bytes": 21199360
+        },
+        {
+          "context_length": 8192,
+          "attention_kv_bytes": 29360128,
+          "mamba_conv_bytes": 96768,
+          "mamba_ssm_bytes": 6422528,
+          "logical_state_bytes": 35879424
+        }
+      ]
+    },
+    {
+      "ratio": "1:15",
+      "checkpoint": {
+        "path": "checkpoints/week3-700m-v1/hybrid-1_15-ee7b7913/best.pt",
+        "ratio": "1:15",
+        "recorded_val_loss": 3.2776498794555664,
+        "sha256": "1ff7ad5454ade6322ddc52d28eefdc4d3c7ade0142fdcc350f139fef08d58e91",
+        "step": 42725,
+        "training_signature": "ae67dc29ca3eab1bd2ea3acb7d88dcca4493ed0992c6eaf051eb70b2881b1dcb"
+      },
+      "matches": 3,
+      "trials": [
+        {
+          "actual_depth": 0.12348178137651822,
+          "code": "orchid",
+          "context_length": 512,
+          "exact_match": false,
+          "generated_text": " not accessible to the observer.\n",
+          "generated_token_ids": [
+            407,
+            9603,
+            284,
+            262,
+            10888,
+            331,
+            14,
+            199
+          ],
+          "normalized_answer": "not",
+          "requested_depth": 0.1,
+          "target_token_nll": 1.2021399958369632
+        },
+        {
+          "actual_depth": 0.5,
+          "code": "lantern",
+          "context_length": 512,
+          "exact_match": true,
+          "generated_text": " lantern.\n\nResearch",
+          "generated_token_ids": [
+            302,
+            273,
+            757,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "lantern",
+          "requested_depth": 0.5,
+          "target_token_nll": 0.7120409967998663
+        },
+        {
+          "actual_depth": 0.8765182186234818,
+          "code": "cobalt",
+          "context_length": 512,
+          "exact_match": true,
+          "generated_text": " cobalt.\n\nResearch",
+          "generated_token_ids": [
+            662,
+            66,
+            3092,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "cobalt",
+          "requested_depth": 0.9,
+          "target_token_nll": 0.0886005653689305
+        },
+        {
+          "actual_depth": 0.11133200795228629,
+          "code": "saffron",
+          "context_length": 1024,
+          "exact_match": false,
+          "generated_text": " the access code. The access code is",
+          "generated_token_ids": [
+            262,
+            1960,
+            2554,
+            14,
+            392,
+            1960,
+            2554,
+            320
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 3.821517420311769
+        },
+        {
+          "actual_depth": 0.5009940357852882,
+          "code": "maple",
+          "context_length": 1024,
+          "exact_match": false,
+          "generated_text": " the access code. The access code is",
+          "generated_token_ids": [
+            262,
+            1960,
+            2554,
+            14,
+            392,
+            1960,
+            2554,
+            320
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.5,
+          "target_token_nll": 4.19498011469841
+        },
+        {
+          "actual_depth": 0.8886679920477137,
+          "code": "quartz",
+          "context_length": 1024,
+          "exact_match": true,
+          "generated_text": " quartz.\n\nResearch",
+          "generated_token_ids": [
+            619,
+            429,
+            90,
+            14,
+            199,
+            199,
+            5759,
+            3914
+          ],
+          "normalized_answer": "quartz",
+          "requested_depth": 0.9,
+          "target_token_nll": 1.212068054980288
+        },
+        {
+          "actual_depth": 0.10541871921182266,
+          "code": "raven",
+          "context_length": 2048,
+          "exact_match": false,
+          "generated_text": " the same as the one that was used",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            522,
+            316,
+            358,
+            1039
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 7.6837897300720215
+        },
+        {
+          "actual_depth": 0.5004926108374385,
+          "code": "willow",
+          "context_length": 2048,
+          "exact_match": false,
+          "generated_text": " the same as the one that was used",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            522,
+            316,
+            358,
+            1039
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.5,
+          "target_token_nll": 8.680798053741455
+        },
+        {
+          "actual_depth": 0.8950738916256158,
+          "code": "ember",
+          "context_length": 2048,
+          "exact_match": false,
+          "generated_text": " the same as the one that was used",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            522,
+            316,
+            358,
+            1039
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.9,
+          "target_token_nll": 3.0166869163513184
+        },
+        {
+          "actual_depth": 0.10274644433545856,
+          "code": "harbor",
+          "context_length": 4096,
+          "exact_match": false,
+          "generated_text": " the same as the previous one.\n",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            2998,
+            522,
+            14,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 9.091426849365234
+        },
+        {
+          "actual_depth": 0.5,
+          "code": "violet",
+          "context_length": 4096,
+          "exact_match": false,
+          "generated_text": " the same as the previous one.\n",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            2998,
+            522,
+            14,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.5,
+          "target_token_nll": 6.099523146947225
+        },
+        {
+          "actual_depth": 0.8972535556645415,
+          "code": "cedar",
+          "context_length": 4096,
+          "exact_match": false,
+          "generated_text": " the same as the previous one.\n",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            2998,
+            522,
+            14,
+            199
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.9,
+          "target_token_nll": 4.81129730741183
+        },
+        {
+          "actual_depth": 0.10141913383900171,
+          "code": "silver",
+          "context_length": 8192,
+          "exact_match": false,
+          "generated_text": " the same as the one that was used",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            522,
+            316,
+            358,
+            1039
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.1,
+          "target_token_nll": 12.285348892211914
+        },
+        {
+          "actual_depth": 0.5,
+          "code": "falcon",
+          "context_length": 8192,
+          "exact_match": false,
+          "generated_text": " the same as the one that was used",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            522,
+            316,
+            358,
+            1039
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.5,
+          "target_token_nll": 7.179970741271973
+        },
+        {
+          "actual_depth": 0.8987032052850502,
+          "code": "meadow",
+          "context_length": 8192,
+          "exact_match": false,
+          "generated_text": " the same as the one that was used",
+          "generated_token_ids": [
+            262,
+            996,
+            353,
+            262,
+            522,
+            316,
+            358,
+            1039
+          ],
+          "normalized_answer": "the",
+          "requested_depth": 0.9,
+          "target_token_nll": 10.083513259887695
+        }
+      ],
+      "storage": [
+        {
+          "context_length": 512,
+          "attention_kv_bytes": 917504,
+          "mamba_conv_bytes": 103680,
+          "mamba_ssm_bytes": 6881280,
+          "logical_state_bytes": 7902464
+        },
+        {
+          "context_length": 1024,
+          "attention_kv_bytes": 1835008,
+          "mamba_conv_bytes": 103680,
+          "mamba_ssm_bytes": 6881280,
+          "logical_state_bytes": 8819968
+        },
+        {
+          "context_length": 2048,
+          "attention_kv_bytes": 3670016,
+          "mamba_conv_bytes": 103680,
+          "mamba_ssm_bytes": 6881280,
+          "logical_state_bytes": 10654976
+        },
+        {
+          "context_length": 4096,
+          "attention_kv_bytes": 7340032,
+          "mamba_conv_bytes": 103680,
+          "mamba_ssm_bytes": 6881280,
+          "logical_state_bytes": 14324992
+        },
+        {
+          "context_length": 8192,
+          "attention_kv_bytes": 14680064,
+          "mamba_conv_bytes": 103680,
+          "mamba_ssm_bytes": 6881280,
+          "logical_state_bytes": 21665024
+        }
+      ]
+    }
+  ]
+}

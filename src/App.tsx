@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { GenerationLab } from './components/GenerationLab'
 import { LayerInstrument } from './components/LayerInstrument'
 import { RecordedComparison } from './components/RecordedComparison'
+import { RetrievalReplay } from './components/RetrievalReplay'
 import { links, ratioEvidence, stateCurves, type Ratio } from './data/evidence'
 
 const source = 'https://github.com/Karan-Anchan/mamba-hybrid-lm/blob/8e836ba93eb790988c37147f474b679443276f53/'
@@ -94,7 +95,7 @@ function App() {
       <header className="site-header">
         <a className="site-name" href="#top">Mamba hybrid LM <span>research summary</span></a>
         <nav className="site-nav" aria-label="Page sections">
-          <a href="#results">Results</a><a href="#method">Method</a><a href="#challenges">Challenges</a><a href="#demo">Demo</a>
+          <a href="#results">Results</a><a href="#method">Method</a><a href="#challenges">Challenges</a><a href="#demo">Demo</a><a href="#retrieval">Recall</a>
         </nav>
         <a className="header-source" href={links.project} target="_blank" rel="noreferrer">Source repository ↗</a>
       </header>
@@ -163,6 +164,8 @@ function App() {
           <RecordedComparison />
           <details className="optional-generation"><summary>Optional: inspect a replay or connect to live generation</summary><p>This separate console can replay a registered sample or stream live tokens when a compatible model API is healthy. Its prompt and ratio controls are independent of the comparison above.</p><div className="demo-panel"><GenerationLab ratio={ratio} onRatioChange={setRatio} /></div></details>
         </section>
+
+        <RetrievalReplay />
 
         <section className="section source-section" id="sources" aria-labelledby="sources-title">
           <div className="section-head"><p className="eyebrow">Sources</p><h2 id="sources-title">Inspect the evidence</h2></div>

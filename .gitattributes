@@ -1,0 +1,5 @@
+# Preserve the byte identity of the historical evidence copy across platforms.
+public/evidence/week4-evaluation-results.json -text
+# Generated projection and its reproducible exporter use one recorded format.
+src/data/retrievalReplay.json text eol=lf
+scripts/export-retrieval-replay.mjs text eol=lf

@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "test": "vitest run",
+    "test": "vitest run && node scripts/export-retrieval-replay.mjs --check",
     "test:e2e": "playwright test",
     "check": "npm run lint && npm run test && npm run build"
   },

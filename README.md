@@ -4,9 +4,11 @@
 
 This page is a compact, recruiter-facing account of one small language-model ablation. It leads with the measured result, then shows the protocol, implementation, limitations, and source artifacts. It is not a general claim that Mamba or attention is faster in every implementation.
 
-The interface follows a minimal research layout with locally bundled IBM Plex typography, flat reading surfaces and restrained colors for the three ratios. An interactive sixteen-layer map explains the architecture without claiming live telemetry. The unused phase-portrait component and decorative gradients have been removed; the source-backed state figure and clearly labeled generation replay remain. Browser checks cover twelve phone, tablet and desktop viewports.
+The interface follows a minimal research layout with locally bundled Poppins for reading text and IBM Plex Mono for technical values, flat reading surfaces and restrained colors for the three ratios. An interactive sixteen-layer map explains the architecture without claiming live telemetry. The source-backed state figure and clearly labeled generation replay remain. Browser checks cover twelve phone, tablet and desktop viewports.
 
 All three architecture patterns now appear together. Filled attention markers and written layer positions identify the attention blocks without depending on color. The recorded comparison immediately shows all three saved responses and per-sample metrics for a common P1–P3 prompt. Its controls are independent of optional live/replay generation. Pure-attention and pure-Mamba configurations are baseline controls awaiting measured language-quality results.
+
+The [hidden-fact replay](https://karan-anchan.github.io/mamba-hybrid-lm-showcase/#retrieval) shows all three answers for any of the 15 recorded length/placement settings. It retains all 45 exact continuations, match outcomes, teacher-forced target-token losses and checkpoint identities, including every failure. The position strip illustrates recorded actual depth. Changing a setting also changes the planted code; this historical grid does not isolate distance alone. Controls select evidence and run no inference.
 
 ## Question and method
 
@@ -40,6 +42,8 @@ The 1:3 variant has the lowest perplexity and highest short sampled-generation r
 ## Recorded page versus live model
 
 GitHub Pages hosts the static site, **not** model inference. Without a reachable API, the generation panel replays only the nine committed RTX 5070 prompt/ratio samples and labels them as recorded evidence; custom prompts are unavailable. When `VITE_API_URL` points to a healthy compatible FastAPI service, it can stream a live response. The service keeps one checkpoint loaded at a time and verifies checkpoint identity before loading. [Showcase behavior](src/components/GenerationLab.tsx) · [API guide](https://github.com/Karan-Anchan/mamba-hybrid-lm/blob/8e836ba93eb790988c37147f474b679443276f53/demo/README.md)
+
+Retrieval is a separate, immediately visible recorded view. [Its source copy](public/evidence/week4-evaluation-results.json) is unchanged, with SHA256 `12b741d651b427743cd4cd15b0ea5dec1c071342c93ad862bf14d0bff668f4b9`. [The exporter](scripts/export-retrieval-replay.mjs) validates the grid, pairing, original match rule, counts and identities before making the small website projection. `node scripts/export-retrieval-replay.mjs --check` independently hashes the saved source and reconstructs the projection without modifying files; it runs with the test suite and needs no sibling model checkout. Regeneration without `--check` reads the preserved model repository's Week 4 report.
 
 ## Run the page locally
 
